@@ -5,17 +5,17 @@
 
 [1m[30m[46m RUN [49m[39m[22m [36mv5.1.1 [39m[90mC:/Users/DELL/Desktop/Codes/neli-catalogue[39m
 
- [32m✓[39m tests/Catalogue.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 671[2mms[22m[39m
-   [32m✓[39m Catalogue component [2m(2)[22m
-     [33m[2m✓[22m[39m resets to page one when search or status changes and exposes labelled controls[33m 525[2mms[22m[39m
- [32m✓[39m tests/useCatalogue.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 566[2mms[22m[39m
- [32m✓[39m tests/catalogueUtils.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+ [32m✓[39m tests/Catalogue.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 1373[2mms[22m[39m
+   [32m✓[39m Catalogue component [2m(6)[22m
+     [33m[2m✓[22m[39m resets to page one when search or status changes and exposes labelled controls[33m 869[2mms[22m[39m
+ [32m✓[39m tests/useCatalogue.test.tsx [2m([22m[2m7 tests[22m[2m)[22m[33m 1215[2mms[22m[39m
+   [32m✓[39m useCatalogue [2m(7)[22m
+     [33m[2m✓[22m[39m loads and exposes successful results[33m 352[2mms[22m[39m
+     [33m[2m✓[22m[39m keeps the last successful results when a later request fails and supports retry[33m 346[2mms[22m[39m
+ [32m✓[39m tests/catalogueUtils.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 60[2mms[22m[39m
 
 [2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
-[2m      Tests [22m [1m[32m14 passed[39m[22m[90m (14)[39m
-[2m   Start at [22m 12:24:31
-[2m   Duration [22m 16.37s[2m (environment 69%, setup 16%, tests 8%, transform 4%, import 3%)[22m
-
-[2m    Isolate [22m [33m3 workers spawned[39m[2m · ~3.87s startup each (spawn + environment, per file)[22m
-[2m            [22m [2mat least ~7.75s faster with [22m[33misolate: false[39m[2m — reuses workers across files instead of one per file[22m
+[2m      Tests [22m [1m[32m21 passed[39m[22m[90m (21)[39m
+[2m   Start at [22m 17:25:17
+[2m   Duration [22m 75.13s[2m (environment 77%, setup 11%, import 6%, tests 4%, transform 2%)[22m
 
