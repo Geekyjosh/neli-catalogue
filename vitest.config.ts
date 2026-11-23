@@ -8,5 +8,6 @@ export default defineConfig({
     setupFiles: ["./src/test/setup.ts"],
     globals: true,
     restoreMocks: true,
+    isolate: false,
   },
 });
