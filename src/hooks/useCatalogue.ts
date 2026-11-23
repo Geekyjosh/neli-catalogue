@@ -1,15 +1,24 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CatalogueQuery, CatalogueResponse, FetchPage } from "../adapters/types";
 
+interface SuccessfulResult {
+  response: CatalogueResponse;
+  query: CatalogueQuery;
+}
+
 interface CatalogueState {
-  data: CatalogueResponse | null;
+  successful: SuccessfulResult | null;
   loading: boolean;
   error: string | null;
 }
 
+function copyQuery(query: CatalogueQuery): CatalogueQuery {
+  return { ...query };
+}
+
 export function useCatalogue(fetchPage: FetchPage, query: CatalogueQuery) {
   const [state, setState] = useState<CatalogueState>({
-    data: null,
+    successful: null,
     loading: true,
     error: null,
   });
@@ -19,26 +28,35 @@ export function useCatalogue(fetchPage: FetchPage, query: CatalogueQuery) {
   useEffect(() => {
     const requestId = ++latestRequest.current;
     let active = true;
+    const requestedQuery = copyQuery(query);
 
-    // Loading is set when a request starts; previous data is deliberately retained.
+    // A new query withdraws any previous error/retry action but keeps the
+    // last successful response visible until this request succeeds.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setState((current) => ({
-      ...current,
-      loading: true,
-      error: null,
-    }));
+    setState((current) => ({ ...current, loading: true, error: null }));
 
-    fetchPage({
-      search: query.search,
-      status: query.status,
-      page: query.page,
-      pageSize: query.pageSize,
-    })
-      .then((data) => {
+    async function load() {
+      try {
+        let response = await fetchPage(requestedQuery);
+        let resolvedQuery = requestedQuery;
+
+        // If the result set shrank while the user was on a later page,
+        // make exactly one request for the new last page.
+        if (response.total > 0) {
+          const lastPage = Math.ceil(response.total / requestedQuery.pageSize);
+          if (requestedQuery.page > lastPage) {
+            resolvedQuery = { ...requestedQuery, page: lastPage };
+            response = await fetchPage(resolvedQuery);
+          }
+        }
+
         if (!active || requestId !== latestRequest.current) return;
-        setState({ data, loading: false, error: null });
-      })
-      .catch((error: unknown) => {
+        setState({
+          successful: { response, query: resolvedQuery },
+          loading: false,
+          error: null,
+        });
+      } catch (error: unknown) {
         if (!active || requestId !== latestRequest.current) return;
         setState((current) => ({
           ...current,
@@ -48,7 +66,10 @@ export function useCatalogue(fetchPage: FetchPage, query: CatalogueQuery) {
               ? error.message
               : "Something went wrong while loading the catalogue.",
         }));
-      });
+      }
+    }
+
+    void load();
 
     return () => {
       active = false;
@@ -59,5 +80,11 @@ export function useCatalogue(fetchPage: FetchPage, query: CatalogueQuery) {
     setRetryKey((current) => current + 1);
   }, []);
 
-  return { ...state, retry };
+  return {
+    data: state.successful?.response ?? null,
+    dataQuery: state.successful?.query ?? null,
+    loading: state.loading,
+    error: state.error,
+    retry,
+  };
 }
