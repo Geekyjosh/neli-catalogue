@@ -1,7 +1,7 @@
 #root { min-height: 100vh; }
 .app-shell { min-height: 100vh; }
 .topbar { height: 72px; padding: 0 clamp(22px, 6vw, 88px); background: #fff; border-bottom: 1px solid #e9edf3; display: flex; align-items: center; justify-content: space-between; }
-.brand { display: inline-flex; align-items: center; gap: 10px; color: #17243a; text-decoration: none; font: 800 20px Manrope, sans-serif; letter-spacing: -.7px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; color: #17243a; text-decoration: none; font: 800 20px Arial, Helvetica, sans-serif; letter-spacing: -.7px; }
 .brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: #245edb; color: white; font-size: 18px; }
 .brand-light { color: #7b8798; font-weight: 500; }
 .topbar-right { display: flex; align-items: center; gap: 22px; }
@@ -13,13 +13,13 @@
 .breadcrumbs strong { color: #3c4859; font-weight: 600; }
 .page-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin: 32px 0 26px; }
 .eyebrow { color: #6483bb; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; margin: 0 0 8px; }
-h1 { margin: 0 0 6px; font: 700 30px Manrope, sans-serif; letter-spacing: -.8px; color: #17243a; }
+h1 { margin: 0 0 6px; font: 700 30px Arial, Helvetica, sans-serif; letter-spacing: -.8px; color: #17243a; }
 .subtitle { color: #7c8797; font-size: 13px; margin: 0; }
 .scenario-control { display: grid; gap: 6px; color: #697588; font-size: 11px; font-weight: 600; }
 .scenario-control select { min-width: 170px; border: 1px solid #e0e6ef; border-radius: 7px; padding: 9px 30px 9px 11px; color: #354256; background: #fff; font-size: 12px; }
 .catalogue-card { background: #fff; border: 1px solid #e8edf3; border-radius: 11px; box-shadow: 0 5px 22px rgba(30, 49, 79, .035); overflow: hidden; }
 .card-heading { display: flex; align-items: center; justify-content: space-between; padding: 23px 25px 20px; }
-.card-heading h2 { margin: 0 0 4px; color: #253247; font: 700 15px Manrope, sans-serif; }
+.card-heading h2 { margin: 0 0 4px; color: #253247; font: 700 15px Arial, Helvetica, sans-serif; }
 .card-heading p { margin: 0; color: #929cab; font-size: 11px; }
 .count-pill { border: 1px solid #e6ebf2; border-radius: 20px; padding: 5px 10px; color: #66758b; font-size: 10px; font-weight: 600; }
 .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 25px; border-top: 1px solid #f0f2f6; border-bottom: 1px solid #edf0f5; }
@@ -60,7 +60,7 @@ h1 { margin: 0 0 6px; font: 700 30px Manrope, sans-serif; letter-spacing: -.8px;
 .error-banner button, .empty-state button { border: 0; border-radius: 6px; padding: 8px 12px; background: #285fc4; color: #fff; font-size: 10px; font-weight: 600; }
 .empty-state { display: grid; justify-items: center; padding: 48px 20px; text-align: center; }
 .empty-icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: #f0f4fa; color: #8190a5; font-size: 25px; }
-.empty-state h3 { margin: 13px 0 5px; color: #344257; font: 700 14px Manrope, sans-serif; }
+.empty-state h3 { margin: 13px 0 5px; color: #344257; font: 700 14px Arial, Helvetica, sans-serif; }
 .empty-state p { margin-bottom: 14px; color: #8994a4; font-size: 11px; }
 .page-footnote { margin: 14px 2px 0; color: #a0a9b5; font-size: 10px; }
 @media (max-width: 760px) {
