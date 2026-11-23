@@ -1,46 +1,39 @@
 # Lead Notes
 
 ## Delivery summary
-
-The implementation separates catalogue query logic, the asynchronous adapter, request state, and presentation. The fixture remains the source of truth for the assessment demo.
+The implementation separates catalogue query logic, the asynchronous adapter, request state and presentation. The supplied synthetic fixture is used as the demo data source.
 
 ## State ownership
-
-- `App` owns the selected demo scenario, search input, status filter, page and page size.
-- `useCatalogue` owns the latest successful response, loading state, error state and retry trigger.
-- `fixtureAdapter` owns fixture scenario timing and simulated failure behavior.
-- `getCataloguePage` is a pure function for filtering, sorting and pagination.
+- App owns the selected demo scenario, search input, status filter, current requested page and page size.
+- useCatalogue owns the last successful response and its query metadata, loading state, recoverable error and retry trigger.
+- fixtureAdapter owns local scenario timing and simulated failure behaviour.
+- getCataloguePage is a pure function for filtering, sorting and pagination.
 
 ## Error and retry policy
+A failed request does not clear the last successful response or its query metadata. The view labels retained rows as previous successful results, keeps the count and page position tied to that successful response, disables pagination and offers retry for the failed query. A changed query starts a newer request and clears the prior error/retry action.
 
-A failed request does not clear the last successful data. The error is announced through an alert region and a retry action issues a fresh request. Loading state is shown independently so the existing table can remain visible while a new request is pending.
+## Concurrency and page-boundary policy
+Each effect invocation receives an incrementing request identity and is invalidated during cleanup. Only the current request may commit a result. If a successful response reports a positive total smaller than the requested page requires, the hook issues one request for the last valid page; that request remains subject to the same request-identity guard. Empty results are represented on page one.
 
-## Concurrency policy
-
-Every effect invocation receives an incrementing request sequence. Only the currently active request may commit a success or failure. Effect cleanup also marks the request inactive, preventing updates after unmount or dependency changes.
-
-## Blockers and assumptions
-
-- The assessment provides synthetic data and simulated scenarios only.
-- No production API schema, authentication method, authorization rules, or service-level expectations were supplied.
-- The demo adapter should be replaced only after the backend contract and ownership are agreed.
+## Review blockers and assumptions
+- The assessment supplies synthetic data and simulated scenarios only.
+- No production API schema, authentication, authorisation or service-level expectations were supplied.
+- The production adapter should not be implemented until the backend contract and ownership are agreed.
+- The fixture must be compared with the original supplied assessment asset before final packaging.
 
 ## Adoption plan and owners
-
-1. Frontend owner: confirm table columns, sorting rules, accessibility expectations and loading/error copy with product/design.
-2. API owner: publish endpoint contract, pagination semantics, error model and authentication requirements.
-3. Frontend owner: implement the production adapter against the approved contract without changing the UI-facing types unless required by the contract.
-4. QA owner: add contract-level tests and verify keyboard, screen-reader, responsive and failure behavior against supported browsers.
+1. Frontend owner: confirm table columns, English sorting expectations, accessibility requirements and loading/error copy with product/design.
+2. API owner: publish endpoint contract, pagination semantics, error model and authentication/authorisation requirements.
+3. Frontend owner: implement an authorised FetchPage adapter against the approved contract while preserving the view-facing types where possible.
+4. QA owner: add contract tests and verify keyboard, screen-reader, responsive and failure behaviour in supported browsers.
+5. Security/product owners: review data handling, credentials, dependency licences and reuse terms before production adoption.
 
 ## Verification gates
-
-- `npm test` passes.
-- `npm run lint` passes.
-- `npm run build` passes.
-- Manually exercise all four fixture scenarios.
-- Confirm keyboard operation and visible focus indicators.
-- Verify that the fixture file is unchanged from the supplied assessment asset.
+- npm ci completes from a clean checkout.
+- npm test, npm run lint and npm run build pass.
+- Automated tests cover normal pagination, sorting ties, search/status intersection, page reset, empty results, shrinking totals, failure/retry and out-of-order responses.
+- Manual keyboard and screen-reader checks are recorded honestly in reports/.
+- The fixture matches the supplied original file byte-for-byte.
 
 ## Rollback
-
-Revert the implementation commit on the feature branch. The fixture and Vite toolchain are independent of any production service and can be retained for local regression testing.
+If a regression is identified, revert the relevant implementation commit(s) on the main branch. Retain the fixture and test tooling for local regression testing.
