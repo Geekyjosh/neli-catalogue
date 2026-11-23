@@ -81,4 +81,4 @@ The fixture adapter is isolated in src/adapters/fixtureAdapter.ts. To integrate 
 
 ## Verification records
 
-See reports/manual-check.md for the manual keyboard and scenario check record. The local verification command output is committed in reports/npm-test.txt, reports/npm-lint.txt and reports/npm-build.txt. Manual scenario, keyboard and Windows Narrator checks are recorded in reports/manual-check.md. A fresh-clone clean-checkout verification remains a final pre-submission gate.
+See reports/manual-check.md for the manual keyboard, scenario and clean-clone verification record. The local working-checkout command output is committed in reports/npm-test.txt, reports/npm-lint.txt and reports/npm-build.txt. The clean-clone run on 23 November 2026 installed successfully, passed all 14 tests on a standalone rerun, passed lint and production build, and reported zero npm audit vulnerabilities. The initial intermittent worker-startup timeout is disclosed in the verification record.
