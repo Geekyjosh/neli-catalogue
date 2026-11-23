@@ -19,7 +19,8 @@ Each effect invocation receives an incrementing request identity and is invalida
 - The assessment supplies synthetic data and simulated scenarios only.
 - No production API schema, authentication, authorisation or service-level expectations were supplied.
 - The production adapter should not be implemented until the backend contract and ownership are agreed.
-- The supplied fixture was byte-compared with the original assessment asset on 23 November 2026 and matched. A fresh-clone clean-checkout run remains outstanding.
+- The supplied fixture was byte-compared with the original assessment asset on 23 November 2026 and matched.
+- A fresh clone was verified on 23 November 2026: npm ci succeeded with 0 reported vulnerabilities; a standalone npm test rerun passed all 14 tests; lint and production build passed. The first combined test invocation had an intermittent worker-startup timeout, which is disclosed in reports/manual-check.md.
 
 ## Adoption plan and owners
 1. Frontend owner: confirm table columns, English sorting expectations, accessibility requirements and loading/error copy with product/design.
@@ -30,12 +31,12 @@ Each effect invocation receives an incrementing request identity and is invalida
 
 ## Verification gates
 - npm ci completes from a clean checkout.
-- npm test, npm run lint and npm run build pass.
+- npm test, npm run lint and npm run build pass; clean-clone results are recorded in reports/manual-check.md.
 - Automated tests cover normal pagination, sorting ties, search/status intersection, page reset, empty results, shrinking totals, failure/retry and out-of-order responses.
 - Manual keyboard and screen-reader checks are recorded honestly in reports/.
 - The fixture matches the supplied original file byte-for-byte (comparison completed 23 November 2026).
 - The local manual scenario, keyboard and Windows Narrator checks are recorded in reports/manual-check.md.
-- Captured local test, lint and build output is committed under reports/. A separate clean-clone run is still required.
+- Captured local test, lint and build output is committed under reports/.
 
 ## Rollback
 If a regression is identified, revert the relevant implementation commit(s) on the main branch. Retain the fixture and test tooling for local regression testing.
