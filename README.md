@@ -71,10 +71,11 @@ Manual browser checks are recorded in reports/manual-check.md. Captured output f
 
 ## Time record and assumptions
 
-- Active implementation and verification time: not tracked contemporaneously, so an exact total cannot be reported reliably.
-- Lead-notes preparation time: not tracked contemporaneously, so an exact total cannot be reported reliably.
+- Total assessment work period: 10:00 AM-1:39 PM on 23 November 2026 (3 hours 39 minutes elapsed), including implementation, verification and lead-notes preparation.
+- Lead-notes preparation: approximately 30 minutes, included in the total.
+- Other assessment work: approximately 3 hours 9 minutes.
 - Setup blockers: Windows initially encountered a locked native dependency file during installation; closing the running development process/editor and rerunning installation resolved it. Vitest was configured to use a single thread worker after the default worker startup was unreliable in the local Windows environment.
-- Current manual results and remaining unverified checks are listed in reports/manual-check.md. The clean-checkout test remains outstanding.
+- Remaining untested checks: responsive layout and cross-browser coverage beyond the recorded Windows/Chrome session were not separately tested.
 
 Assumptions: the supplied fixture is the only data source; the API contract, authentication, authorisation, production error model and service-level expectations are not provided. The demo uses page-based pagination and a fixed page size of five.
 
