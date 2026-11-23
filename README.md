@@ -79,7 +79,7 @@ Cases covered: pagination and stable ordering (including reverse-id input), sear
 
 ## Actual time
 
-I worked from 2:00 PM to 5:39 PM on 23 November 2026 (3 h 39 min elapsed), and spent about 25 min of that on the lead notes. I hit two setup blockers: a locked native dependency file during installation on Windows (which I resolved by closing the dev process), and unreliable default Vitest worker startup on Windows, so my tests run with `--pool=threads --maxWorkers=1`. One intermittent worker timeout occurred during my clean-clone verification; an immediate rerun passed.
+I worked from 3:00 PM to 6:30 PM on 23 November 2026 (3 h 30 min elapsed), and spent about 25 min of that on the lead notes. I hit two setup blockers: a locked native dependency file during installation on Windows (which I resolved by closing the dev process), and unreliable default Vitest worker startup on Windows, so my tests run with `--pool=threads --maxWorkers=1`. One intermittent worker timeout occurred during my clean-clone verification; an immediate rerun passed.
 
 ## Assumptions
 

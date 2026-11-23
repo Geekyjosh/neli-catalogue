@@ -96,6 +96,20 @@ The fixture adapter is isolated in src/adapters/fixtureAdapter.ts. To integrate 
 
 ## Verification records
 
-I recorded verification for the earlier revision. I have NOT RUN verification yet for the latest revision (extra tests, exact dependency pins, removal of template assets, `pageSize` prop fix). See reports/manual-check.md for the manual scenario, keyboard, Windows Narrator, browser and responsive-layout results. I manually tested the interface on Windows in Google Chrome, Mozilla Firefox and Microsoft Edge, and it rendered and operated as expected in all three. I also manually checked the responsive layout on mobile and desktop screen sizes, and it worked as expected.
+Final automated verification was completed on 23 November 2026 after the latest implementation changes.
 
-I created a fresh clone on 23 November 2026 using Node.js 24.21.0 and npm 11.19.0. npm ci completed successfully (225 packages added, 226 audited, 0 vulnerabilities reported); a standalone npm test rerun passed all 3 test files and 14 tests; npm run lint passed; and npm run build passed. The first combined test invocation had an intermittent Vitest worker-startup timeout, which I disclosed in reports/manual-check.md. I committed the captured local working-checkout output in reports/npm-test.txt, reports/npm-lint.txt and reports/npm-build.txt.
+- `npm ci` — PASS: 225 packages installed, 226 audited, zero vulnerabilities.
+- `npm test` — PASS: 3 test files, 21 tests.
+- `npm run lint` — PASS.
+- `npm run build` — PASS: TypeScript compilation and Vite production build.
+
+Captured terminal output is stored in:
+
+- `reports/npm-ci.txt`
+- `reports/npm-test.txt`
+- `reports/npm-lint.txt`
+- `reports/npm-build.txt`
+
+Manual browser, keyboard, screen-reader and responsive checks are documented in `reports/manual-check.md`. Those checks were performed against an earlier revision and were not repeated after the latest implementation changes. Do not treat them as final-revision verification.
+
+Production API integration, authentication, authorisation and cross-platform testing remain outside the scope of this assessment.
