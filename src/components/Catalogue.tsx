@@ -53,7 +53,7 @@ export function Catalogue({ fetchPage, pageSize = 5 }: CatalogueProps) {
           <h2>All products</h2>
           <p>Browse, search and filter your inventory.</p>
         </div>
-        <span className="count-pill">{data ? `${total} products` : "Products"}</span>
+        <span className="count-pill" aria-live="polite">{data ? `${total} products` : "Products"}</span>
       </div>
 
       <CatalogueToolbar
