@@ -19,11 +19,13 @@ function App() {
   });
 
   const fetchPage = useMemo(() => createFixtureAdapter(scenario), [scenario]);
-  const { data, loading, error, retry } = useCatalogue(fetchPage, query);
+  const { data, dataQuery, loading, error, retry } = useCatalogue(fetchPage, query);
+  const displayedQuery = dataQuery ?? query;
   const total = data?.total ?? 0;
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-  const start = total === 0 ? 0 : (query.page - 1) * PAGE_SIZE + 1;
-  const end = Math.min(query.page * PAGE_SIZE, total);
+  const start = total === 0 ? 0 : (displayedQuery.page - 1) * PAGE_SIZE + 1;
+  const end = Math.min(displayedQuery.page * PAGE_SIZE, total);
+  const hasPreviousResults = Boolean(error && data);
 
   function updateSearch(value: string) {
     setSearchInput(value);
@@ -82,7 +84,7 @@ function App() {
               <h2>All products</h2>
               <p>Browse, search and filter your inventory.</p>
             </div>
-            <span className="count-pill">{total} products</span>
+            <span className="count-pill">{data ? `${total} products` : "Products"}</span>
           </div>
 
           <CatalogueToolbar
@@ -104,13 +106,13 @@ function App() {
               <div className="error-banner" role="alert">
                 <div>
                   <strong>We couldn't load the latest results</strong>
-                  <p>{error} {data ? "Your previous results are still shown." : "No previous results are available yet."}</p>
+                  <p>{error} {data ? "The previous successful results are shown below." : "No previous results are available yet."}</p>
                 </div>
                 <button type="button" onClick={retry}>Try again</button>
               </div>
             )}
 
-            {!loading && !error && total === 0 ? (
+            {!loading && !error && data?.total === 0 ? (
               <div className="empty-state">
                 <span className="empty-icon" aria-hidden="true">⌕</span>
                 <h3>No products found</h3>
@@ -119,19 +121,20 @@ function App() {
                   Clear filters
                 </button>
               </div>
-            ) : (
+            ) : data ? (
               <>
-                <CatalogueTable products={data?.items ?? []} loading={loading} />
+                {hasPreviousResults && <p className="previous-results-label">Showing previous successful results</p>}
+                <CatalogueTable products={data.items} loading={loading} />
                 <footer className="table-footer">
                   <p>Showing <strong>{start}–{end}</strong> of <strong>{total}</strong> products</p>
                   <nav className="pagination" aria-label="Catalogue pagination">
-                    <button type="button" onClick={() => changePage(query.page - 1)} disabled={query.page <= 1 || loading} aria-label="Previous page">←</button>
-                    <span>Page <strong>{query.page}</strong> of <strong>{totalPages}</strong></span>
-                    <button type="button" onClick={() => changePage(query.page + 1)} disabled={query.page >= totalPages || loading} aria-label="Next page">→</button>
+                    <button type="button" onClick={() => changePage(displayedQuery.page - 1)} disabled={displayedQuery.page <= 1 || loading || Boolean(error)} aria-label="Previous page">←</button>
+                    <span>Page <strong>{displayedQuery.page}</strong> of <strong>{totalPages}</strong></span>
+                    <button type="button" onClick={() => changePage(displayedQuery.page + 1)} disabled={displayedQuery.page >= totalPages || loading || Boolean(error)} aria-label="Next page">→</button>
                   </nav>
                 </footer>
               </>
-            )}
+            ) : null}
           </div>
         </section>
         <p className="page-footnote">Catalogue data is provided by the local assessment fixture.</p>
