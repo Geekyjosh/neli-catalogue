@@ -18,9 +18,9 @@
 | Keyboard access and visible focus | PASS | Tab navigation reached the controls and table interactions; focus was visible. |
 | Screen-reader announcement and accessible names | PASS | Windows Narrator announced the search, status filter, table headers and pagination controls. |
 
-## Automated verification
+## Automated verification — working checkout
 
-The final local commands completed successfully:
+The local working-checkout commands completed successfully:
 
 - `npm test`: 3 test files passed, 14 tests passed.
 - `npm run lint`: passed with no errors or warnings.
@@ -28,7 +28,17 @@ The final local commands completed successfully:
 
 Captured terminal output is stored in `npm-test.txt`, `npm-lint.txt` and `npm-build.txt`.
 
+## Clean-clone verification
+
+A fresh clone was created in `neli-catalogue-clean` and dependencies were installed using `npm ci`:
+
+- **npm ci — PASS:** 225 packages added, 226 audited, 0 vulnerabilities reported.
+- **npm test — PASS:** the first combined invocation encountered an intermittent worker-startup timeout. A separate immediate rerun passed all 3 test files and all 14 tests with no unhandled errors.
+- **npm run lint — PASS.**
+- **npm run build — PASS:** TypeScript compilation and Vite production build completed successfully.
+
+The first transient worker-startup error is retained in this record for transparency; the standalone rerun was clean.
+
 ## Remaining verification
 
-- A fresh clone / clean-checkout install and verification using `npm ci`, tests, lint and build has not yet been completed. Do not describe the project as clean-checkout verified until this is done.
 - Responsive layout and cross-browser coverage beyond the recorded Windows/Chrome session were not separately tested.
