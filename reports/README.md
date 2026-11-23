@@ -21,4 +21,4 @@ The fresh-clone commands were run against the committed repository after cloning
 
 ## Remaining untested
 
-Responsive layout and cross-browser coverage beyond the recorded Windows/Chrome session were not separately tested.
+Responsive layout across different screen sizes was not separately tested. Cross-browser manual verification was completed on Windows in Google Chrome, Mozilla Firefox and Microsoft Edge; the application rendered and operated as expected in all three.
