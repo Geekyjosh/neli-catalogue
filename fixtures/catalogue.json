@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "currency": "EUR",
+  "pageSize": 5,
+  "products": [
+    {
+      "id": "p01",
+      "sku": "FIX-001",
+      "name": "Atlas Lamp",
+      "stock": 12,
+      "status": "active"
+    },
+    {
+      "id": "p02",
+      "sku": "FIX-002",
+      "name": "Birch Desk",
+      "stock": 0,
+      "status": "active"
+    },
+    {
+      "id": "p03",
+      "sku": "FIX-003",
+      "name": "Cedar Chair",
+      "stock": 5,
+      "status": "draft"
+    },
+    {
+      "id": "p04",
+      "sku": "FIX-004",
+      "name": "Atlas Lamp",
+      "stock": 8,
+      "status": "active"
+    },
+    {
+      "id": "p05",
+      "sku": "FIX-005",
+      "name": "Elm Shelf",
+      "stock": 2,
+      "status": "archived"
+    },
+    {
+      "id": "p06",
+      "sku": "FIX-006",
+      "name": "Fir Table",
+      "stock": 30,
+      "status": "active"
+    },
+    {
+      "id": "p07",
+      "sku": "FIX-007",
+      "name": "Grove Stool",
+      "stock": 4,
+      "status": "active"
+    },
+    {
+      "id": "p08",
+      "sku": "FIX-008",
+      "name": "Hazel Bench",
+      "stock": 0,
+      "status": "draft"
+    },
+    {
+      "id": "p09",
+      "sku": "FIX-009",
+      "name": "Ivy Cabinet",
+      "stock": 7,
+      "status": "active"
+    },
+    {
+      "id": "p10",
+      "sku": "FIX-010",
+      "name": "Juniper Rack",
+      "stock": 11,
+      "status": "active"
+    },
+    {
+      "id": "p11",
+      "sku": "FIX-011",
+      "name": "Kauri Stand",
+      "stock": 1,
+      "status": "archived"
+    },
+    {
+      "id": "p12",
+      "sku": "FIX-012",
+      "name": "Larch Seat",
+      "stock": 9,
+      "status": "active"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "normal",
+      "description": "Resolve a request after 100 ms."
+    },
+    {
+      "id": "failure",
+      "description": "Reject the next request with a recoverable error; retry succeeds."
+    },
+    {
+      "id": "race",
+      "description": "Resolve the first request after 600 ms and the second after 50 ms, so the older response arrives last."
+    },
+    {
+      "id": "empty",
+      "description": "Use a search that matches no products."
+    }
+  ]
+}
