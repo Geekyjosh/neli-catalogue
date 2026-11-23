@@ -34,7 +34,6 @@ export function CatalogueToolbar({
           onChange={(event) => onSearchChange(event.target.value)}
           placeholder="Search by product name or SKU"
         />
-        <kbd>⌘ K</kbd>
       </label>
       <div className="filter-list" role="group" aria-label="Filter by status">
         {filters.map((filter) => (
