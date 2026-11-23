@@ -38,7 +38,7 @@ describe("Catalogue component", () => {
 
     fireEvent.change(screen.getByRole("searchbox", { name: "Search products by name or SKU" }), { target: { value: "lamp" } });
     await screen.findByText("lamp product 1");
-    expect(screen.getByText(/Page 1 of 1/)).toBeInTheDocument();
+    expect(screen.getByRole("navigation", { name: "Catalogue pagination" })).toHaveTextContent("Page 1 of 1");
     expect(fetchPage).toHaveBeenLastCalledWith(expect.objectContaining({ search: "lamp", page: 1 }));
 
     await user.click(screen.getByRole("button", { name: "Active" }));
@@ -55,7 +55,7 @@ describe("Catalogue component", () => {
 
     render(<Catalogue fetchPage={fetchPage} />);
     await screen.findByText("desk product 1");
-    fireEvent.change(screen.getByRole("searchbox", { name: "Search products by name or SKU" }), { target: { value: "desk 2" } });
+    fireEvent.change(screen.getByRole("searchbox", { name: "Search products by name or SKU" }), { target: { value: "product 2" } });
 
     expect(await screen.findByRole("alert")).toHaveTextContent("Temporary network error");
     expect(screen.getByText("Showing previous successful results")).toBeInTheDocument();
