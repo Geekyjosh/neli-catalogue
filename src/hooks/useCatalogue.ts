@@ -12,10 +12,6 @@ interface CatalogueState {
   error: string | null;
 }
 
-function copyQuery(query: CatalogueQuery): CatalogueQuery {
-  return { ...query };
-}
-
 export function useCatalogue(fetchPage: FetchPage, query: CatalogueQuery) {
   const [state, setState] = useState<CatalogueState>({
     successful: null,
@@ -28,11 +24,15 @@ export function useCatalogue(fetchPage: FetchPage, query: CatalogueQuery) {
   useEffect(() => {
     const requestId = ++latestRequest.current;
     let active = true;
-    const requestedQuery = copyQuery(query);
+    const requestedQuery: CatalogueQuery = {
+      search: query.search,
+      status: query.status,
+      page: query.page,
+      pageSize: query.pageSize,
+    };
 
     // A new query withdraws any previous error/retry action but keeps the
     // last successful response visible until this request succeeds.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setState((current) => ({ ...current, loading: true, error: null }));
 
     async function load() {
