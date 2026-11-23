@@ -17,12 +17,10 @@ Completed on 23 November 2026 using Node.js 24.21.0 and npm 11.19.0.
 
 The final `neli-catalogue-submission.zip` archive was extracted into a newly created, empty directory on 23 November 2026.
 
-All four verification commands were executed successfully from the extracted project:
-
-- `npm ci` - PASS
-- `npm test` - PASS (21/21 tests)
-- `npm run lint` - PASS
-- `npm run build` - PASS
+- `npm ci` - PASS: 225 packages installed, 226 audited, zero vulnerabilities.
+- `npm test` - PASS (21/21 tests across 3 files). The first attempt encountered an intermittent Vitest thread-worker startup timeout; an immediate rerun passed all tests.
+- `npm run lint` - PASS.
+- `npm run build` - PASS.
 
 Environment: Node.js 24.21.0, npm 11.19.0.
 
