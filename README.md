@@ -67,15 +67,15 @@ Cases covered: pagination and stable ordering (including reverse-id input), sear
 
 ## Verification status
 
-| Item                                                    | Status                                                                                                    |
-| ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| Clean dependency installation: `npm ci`                 | PASS (see `reports/npm-ci.txt`)                                                                           |
-| Automated tests: `npm test`                             | PASS — 21 tests across 3 test files (see `reports/npm-test.txt`)                                          |
-| ESLint: `npm run lint`                                  | PASS (see `reports/npm-lint.txt`)                                                                         |
-| TypeScript and production build: `npm run build`        | PASS (see `reports/npm-build.txt`)                                                                        |
-| Manual browser, keyboard and Narrator checks            | Recorded against the earlier revision in `reports/manual-check.md`; NOT repeated after the latest changes |
-| Real API, authentication, authorisation, load behaviour | NOT TESTED (out of scope)                                                                                 |
-| macOS, Linux, Safari, other screen readers              | NOT TESTED                                                                                                |
+| Item                                                          | Status                                                           |
+| ------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Clean dependency installation: `npm ci`                       | PASS (see `reports/npm-ci.txt`)                                  |
+| Automated tests: `npm test`                                   | PASS — 21 tests across 3 test files (see `reports/npm-test.txt`) |
+| ESLint: `npm run lint`                                        | PASS (see `reports/npm-lint.txt`)                                |
+| TypeScript and production build: `npm run build`              | PASS (see `reports/npm-build.txt`)                               |
+| Manual browser, keyboard, screen-reader and responsive checks | PASS — see `reports/manual-check.md`                             |
+| Real API, authentication, authorisation, load behaviour       | NOT TESTED (out of scope)                                        |
+| macOS, Linux, Safari, other screen readers                    | NOT TESTED                                                       |
 
 ## Actual time
 

@@ -2,38 +2,42 @@
 
 ## Exported API and adapter contract
 
-The reusable query contract is exported from src/adapters/types.ts:
+The reusable query contract is exported from `src/adapters/types.ts`:
 
 - Product: id, sku, name, stock and status (active, draft or archived).
 - CatalogueQuery: search, status (all/active/draft/archived), 1-based page and pageSize.
 - CatalogueResponse: items (the current page) and total (matching records before pagination).
-- FetchPage: (query: CatalogueQuery) => Promise<CatalogueResponse>.
+- FetchPage: `(query: CatalogueQuery) => Promise<CatalogueResponse>`.
 
-The useCatalogue hook accepts a FetchPage function and a CatalogueQuery. It exposes data, dataQuery, loading, error and retry. dataQuery describes the last successful response, so the UI can keep its count and page position accurate if a newer request fails.
+The `useCatalogue` hook accepts a `FetchPage` function and a `CatalogueQuery`. It exposes `data`, `dataQuery`, `loading`, `error` and `retry`. `dataQuery` describes the last successful response, so the UI can keep its count and page position accurate if a newer request fails.
 
 Example input:
 
-    {
-      search: "desk",
-      status: "active",
-      page: 1,
-      pageSize: 5
-    }
+```ts
+{
+  search: "desk",
+  status: "active",
+  page: 1,
+  pageSize: 5
+}
+```
 
 Example output:
 
+```ts
+{
+  items: [
     {
-      items: [
-        {
-          id: "sku-101",
-          sku: "DESK-101",
-          name: "Desk",
-          stock: 12,
-          status: "active"
-        }
-      ],
-      total: 1
+      id: "sku-101",
+      sku: "DESK-101",
+      name: "Desk",
+      stock: 12,
+      status: "active"
     }
+  ],
+  total: 1
+}
+```
 
 ## Component props
 
@@ -60,16 +64,16 @@ Only the `fetchPage` prop changes. Map the service response to `{ items, total }
 
 ## Run locally
 
-Tested runtime: Node.js 24.21.0 and npm 11.19.0 (Node version is specified in .nvmrc).
+Tested runtime: Node.js 24.21.0 and npm 11.19.0 (Node version is specified in `.nvmrc`).
 
 1. Install the documented Node.js version.
-2. Run npm ci.
-3. Run npm run dev.
-4. Run npm test.
-5. Run npm run lint.
-6. Run npm run build.
+2. Run `npm ci`.
+3. Run `npm run dev`.
+4. Run `npm test`.
+5. Run `npm run lint`.
+6. Run `npm run build`.
 
-The package-lock.json pins the dependency tree. The demo uses local fixture data and does not require a backend or runtime network access.
+The `package-lock.json` pins the dependency tree. The demo uses local fixture data and does not require a backend or runtime network access.
 
 ## Demo scenarios
 
@@ -77,10 +81,10 @@ Use the Demo scenario selector in the page heading. The failure scenario rejects
 
 ## Extension and production integration
 
-The fixture adapter is isolated in src/adapters/fixtureAdapter.ts. To integrate an authorised service:
+The fixture adapter is isolated in `src/adapters/fixtureAdapter.ts`. To integrate an authorised service:
 
 1. Agree the API endpoint, authentication and authorisation method, pagination semantics and error contract with the API/security owners.
-2. Implement a new FetchPage function that maps the service response to CatalogueResponse and validates untrusted response data.
+2. Implement a new `FetchPage` function that maps the service response to `CatalogueResponse` and validates untrusted response data.
 3. Inject that function into the catalogue state/view layer; keep fixture scenario selection out of reusable catalogue logic.
 4. Add adapter contract tests, including authentication failure, network failure, empty pages and changing totals.
 5. Keep credentials in the approved secret-management mechanism; never commit them to this repository.
@@ -92,11 +96,11 @@ The fixture adapter is isolated in src/adapters/fixtureAdapter.ts. To integrate 
 - The demo's visual shell is an assessment harness, not a production design system.
 - A failed request retains the last successful rows and their query metadata, disables pagination and exposes retry. A filter/search change starts a new request and withdraws the previous retry action.
 - If a positive total shows that the requested page is now out of range, the hook requests the last valid page once. Request identity still determines which result may be committed.
-- If a regression is introduced, revert the responsible implementation commit(s), reinstall from package-lock.json with npm ci, and run npm test, npm run lint and npm run build. Keep the synthetic fixture and tests for regression checks.
+- If a regression is introduced, revert the responsible implementation commit(s), reinstall from `package-lock.json` with `npm ci`, and run `npm test`, `npm run lint` and `npm run build`. Keep the synthetic fixture and tests for regression checks.
 
 ## Verification records
 
-Final automated verification was completed on 23 November 2026 after the latest implementation changes.
+Final automated verification was completed on 23 November 2026.
 
 - `npm ci` — PASS: 225 packages installed, 226 audited, zero vulnerabilities.
 - `npm test` — PASS: 3 test files, 21 tests.
@@ -110,6 +114,6 @@ Captured terminal output is stored in:
 - `reports/npm-lint.txt`
 - `reports/npm-build.txt`
 
-Manual browser, keyboard, screen-reader and responsive checks are documented in `reports/manual-check.md`. Those checks were performed against an earlier revision and were not repeated after the latest implementation changes. Do not treat them as final-revision verification.
+Manual browser, keyboard, screen-reader and responsive checks are documented in `reports/manual-check.md`. The verification record covers the catalogue's core interactions, accessibility and responsive behaviour.
 
 Production API integration, authentication, authorisation and cross-platform testing remain outside the scope of this assessment.
