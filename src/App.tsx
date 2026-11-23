@@ -104,7 +104,7 @@ function App() {
               <div className="error-banner" role="alert">
                 <div>
                   <strong>We couldn't load the latest results</strong>
-                  <p>{error} Your previous results have been kept.</p>
+                  <p>{error} {data ? "Your previous results are still shown." : "No previous results are available yet."}</p>
                 </div>
                 <button type="button" onClick={retry}>Try again</button>
               </div>
