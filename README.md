@@ -1,75 +1,39 @@
-# React + TypeScript + Vite
+# Neli Catalogue
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + TypeScript product catalogue assessment demonstrating asynchronous data loading, search, status filtering, pagination, deterministic alphabetical sorting, request-race protection and recoverable errors.
 
-Currently, two official plugins are available:
+## Requirements
+- Node.js LTS and npm.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+## Install and run
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+## Verification
+```bash
+npm test
+npm run lint
+npm run build
 ```
+
+## Features
+- Case-insensitive search across product names and SKUs.
+- All, Active, Draft and Archived filters.
+- Five products per page with previous/next controls.
+- Alphabetical sorting with an ID tie-breaker for duplicate names.
+- Promise-based fixture adapter.
+- Latest-request-wins concurrency handling.
+- Previous successful data is retained when a request fails; retry is available.
+- Empty, loading and error states.
+- Keyboard-accessible controls and semantic table markup.
+
+## Fixture scenarios
+Select a scenario from the Demo scenario control:
+- **Normal:** resolves after 100 ms.
+- **Failure:** the first request rejects; retry succeeds.
+- **Race:** the first request takes 600 ms and the second 50 ms.
+- **Empty:** returns no matching products.
+
+The supplied `fixtures/catalogue.json` is intentionally kept unchanged.
