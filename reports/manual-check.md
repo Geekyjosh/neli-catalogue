@@ -1,7 +1,7 @@
 # Manual verification record
 
 **Date:** 23 November 2026  
-**Environment:** Windows desktop, Chrome, local Vite development server, Windows Narrator.  
+**Environment:** Windows desktop; Google Chrome, Mozilla Firefox and Microsoft Edge; local Vite development server; Windows Narrator.  
 **Record:** The candidate performed these checks against the current local project and confirmed the results in the assessment session.
 
 | Check | Status | Notes |
@@ -17,6 +17,7 @@
 | Empty state uses page one | PASS | Empty scenario displayed the empty state on page one. |
 | Keyboard access and visible focus | PASS | Tab navigation reached the controls and table interactions; focus was visible. |
 | Screen-reader announcement and accessible names | PASS | Windows Narrator announced the search, status filter, table headers and pagination controls. |
+| Cross-browser operation | PASS | Manually tested on Windows in Google Chrome, Mozilla Firefox and Microsoft Edge; the application rendered and operated as expected in all three browsers. |
 
 ## Automated verification — working checkout
 
@@ -41,4 +42,4 @@ The first transient worker-startup error is retained in this record for transpar
 
 ## Remaining verification
 
-- Responsive layout and cross-browser coverage beyond the recorded Windows/Chrome session were not separately tested.
+Responsive layout across different screen sizes was not separately tested.
