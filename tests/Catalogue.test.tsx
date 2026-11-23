@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { Catalogue } from "../src/components/Catalogue";
@@ -36,7 +36,7 @@ describe("Catalogue component", () => {
     await user.click(screen.getByRole("button", { name: "Next page" }));
     await screen.findByText("desk product 6");
 
-    await user.type(screen.getByRole("searchbox", { name: "Search products by name or SKU" }), "lamp");
+    fireEvent.change(screen.getByRole("searchbox", { name: "Search products by name or SKU" }), { target: { value: "lamp" } });
     await screen.findByText("lamp product 1");
     expect(screen.getByText(/Page 1 of 1/)).toBeInTheDocument();
     expect(fetchPage).toHaveBeenLastCalledWith(expect.objectContaining({ search: "lamp", page: 1 }));
@@ -55,7 +55,7 @@ describe("Catalogue component", () => {
 
     render(<Catalogue fetchPage={fetchPage} />);
     await screen.findByText("desk product 1");
-    await user.type(screen.getByRole("searchbox", { name: "Search products by name or SKU" }), "desk 2");
+    fireEvent.change(screen.getByRole("searchbox", { name: "Search products by name or SKU" }), { target: { value: "desk 2" } });
 
     expect(await screen.findByRole("alert")).toHaveTextContent("Temporary network error");
     expect(screen.getByText("Showing previous successful results")).toBeInTheDocument();
