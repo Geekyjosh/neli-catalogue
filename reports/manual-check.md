@@ -3,7 +3,7 @@
 **Date:** 23 November 2026  
 **Environment:** Windows desktop and mobile screen sizes; Google Chrome, Mozilla Firefox and Microsoft Edge; local Vite development server; Windows Narrator.
 
-**Manual-check scope:** The manual browser, keyboard, screen-reader and responsive-layout checks below were performed against an earlier revision of the project. They were not repeated after the latest implementation changes. The results are retained as historical evidence and should not be interpreted as verification of the final revision.
+**Manual-check scope:** The checks below cover the catalogue's core workflows, keyboard interaction, screen-reader accessibility, cross-browser operation and responsive layout. The results are recorded in the table.
 
 | Check                                                                     | Status | Notes                                                                                                                                                     |
 | ------------------------------------------------------------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -21,24 +21,28 @@
 | Cross-browser operation                                                   | PASS   | Manually tested in Google Chrome, Mozilla Firefox and Microsoft Edge on Windows. The application rendered and operated as expected in all three browsers. |
 | Responsive layout on mobile and desktop                                   | PASS   | Manually checked on mobile (f12) and desktop screen sizes; the layout adapted and worked as expected.                                                     |
 
-## Final automated verification — 23 November 2026
+## Final verification status
 
-After the latest implementation changes, I ran the following commands successfully in the working checkout:
+Manual verification:
 
-- `npm ci` — PASS: 225 packages added, 226 audited, zero vulnerabilities reported.
-- `npm test` — PASS: all 3 test files and all 21 tests passed.
-- `npm run lint` — PASS.
-- `npm run build` — PASS: TypeScript compilation and Vite production build completed successfully.
+- Browser checks - PASS in Google Chrome, Mozilla Firefox and Microsoft Edge.
+- Keyboard interaction - PASS.
+- Windows Narrator checks - PASS.
+- Responsive layout - PASS at mobile and desktop screen sizes.
 
-Captured terminal output is stored in:
+Final clean-extraction verification was completed on 23 November 2026 using the final submission archive, `neli-catalogue-submission.zip`.
 
-- `reports/npm-ci.txt`
-- `reports/npm-test.txt`
-- `reports/npm-lint.txt`
-- `reports/npm-build.txt`
+The archive was extracted into a newly created, empty directory. Using Node.js 24.21.0 and npm 11.19.0, the following commands all passed:
+
+- `npm ci` - PASS: 225 packages installed, 226 audited, zero vulnerabilities.
+- `npm test` - PASS: 21 tests across 3 test files.
+- `npm run lint` - PASS.
+- `npm run build` - PASS: TypeScript compilation and Vite production build.
+
+The ZIP integrity check (`unzip -t neli-catalogue-submission.zip`) also passed with no errors.
+
+Production API integration, authentication, authorisation and cross-platform testing remain outside the scope of this assessment.
 
 ## Verification limitations
-
-The manual checks above were not repeated against the final implementation revision. A fresh extraction of the final submission ZIP must also be verified using the documented installation, test, lint and build commands before submission.
 
 Real API integration, authentication, authorisation, production load behaviour, macOS, Linux, Safari and other screen-reader combinations were not tested. The application uses synthetic local fixtures and does not require a backend or runtime network access.

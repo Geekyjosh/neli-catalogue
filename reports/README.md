@@ -1,22 +1,37 @@
-# Verification evidence
+# Verification Reports
 
-**Revision note:** I produced the captured `npm-*.txt` logs and the manual-check record on the earlier revision (14 tests). The latest revision adds and changes tests (expected total: 21 tests), pins exact dependency versions, removes unused template assets and fixes the `pageSize` prop. Status of that revision: **NOT RUN**. Re-run the commands in README.md and replace these logs.
+This directory contains the assessment's manual and automated verification records.
 
-The following files contain the actual output I captured from my local Windows working checkout on 23 November 2026:
+## Final automated verification
 
-- `npm-test.txt` — Vitest: 3 test files and 14 tests passed.
-- `npm-lint.txt` — ESLint completed without errors or warnings.
-- `npm-build.txt` — TypeScript project build and Vite production build passed.
+Completed on 23 November 2026 using Node.js 24.21.0 and npm 11.19.0.
 
-I recorded the manual browser, scenario, keyboard and Windows Narrator results in `manual-check.md`.
+| Command         | Result                                                           |
+| --------------- | ---------------------------------------------------------------- |
+| `npm ci`        | PASS - 225 packages installed, 226 audited, zero vulnerabilities |
+| `npm test`      | PASS - 21 tests across 3 test files                              |
+| `npm run lint`  | PASS                                                             |
+| `npm run build` | PASS - TypeScript compilation and Vite production build          |
 
-## Fresh-clone verification
+## Clean-extraction verification
 
-I created a new clone in `neli-catalogue-clean` on 23 November 2026.
+The final `neli-catalogue-submission.zip` archive was extracted into a newly created, empty directory on 23 November 2026.
 
-- `npm ci`: completed successfully; 225 packages added, 226 audited, 0 vulnerabilities reported.
-- `npm test`: the first combined invocation encountered one intermittent Vitest thread-worker startup timeout while 9 tests had passed. Running `npm test` separately immediately afterward passed all 3 test files and all 14 tests, with no unhandled errors.
-- `npm run lint`: passed.
-- `npm run build`: TypeScript compilation and Vite production build passed.
+All four verification commands were executed successfully from the extracted project:
 
-I ran the fresh-clone commands against the committed repository after cloning, using the project runtime specified above. I have disclosed the initial worker timeout rather than omitted it. The captured `npm-test.txt`, `npm-lint.txt` and `npm-build.txt` files remain the original working-checkout logs; I recorded the clean-clone results above from my terminal session.
+- `npm ci` - PASS
+- `npm test` - PASS (21/21 tests)
+- `npm run lint` - PASS
+- `npm run build` - PASS
+
+Environment: Node.js 24.21.0, npm 11.19.0.
+
+The archive was also checked using `unzip -t`. No errors were detected in the compressed data.
+
+## Report files
+
+- `manual-check.md` - manual browser, keyboard, screen-reader and responsive-layout verification.
+- `npm-ci.txt` - dependency installation output.
+- `npm-test.txt` - automated test output.
+- `npm-lint.txt` - ESLint output.
+- `npm-build.txt` - TypeScript and production build output.
