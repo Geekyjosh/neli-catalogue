@@ -59,7 +59,12 @@ describe("Catalogue component", () => {
 
     expect(await screen.findByRole("alert")).toHaveTextContent("Temporary network error");
     expect(screen.getByText("Showing previous successful results")).toBeInTheDocument();
-    expect(screen.getByText(/Showing 1–5 of 12 products/)).toBeInTheDocument();
+    expect(
+      screen.getByText((_, element) =>
+        element?.tagName === "P" &&
+        element.textContent?.replace(/\\s+/g, " ").trim() === "Showing 1–5 of 12 products",
+      ),
+    ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Next page" })).toBeDisabled();
 
     await user.click(screen.getByRole("button", { name: "Try again" }));
