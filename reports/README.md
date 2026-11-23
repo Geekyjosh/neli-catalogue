@@ -1,13 +1,11 @@
-# Verification command output
+# Verification evidence
 
-This file is reserved for captured output from the final clean-checkout verification.
+The following files contain the actual output captured from the candidate's local Windows working checkout on 23 November 2026:
 
-After pulling the final commit and running the commands locally, capture output with:
+- `npm-test.txt` — Vitest: 3 test files and 14 tests passed.
+- `npm-lint.txt` — ESLint completed without errors or warnings.
+- `npm-build.txt` — TypeScript project build and Vite production build passed.
 
-```bash
-npm test 2>&1 | tee reports/npm-test.txt
-npm run lint 2>&1 | tee reports/npm-lint.txt
-npm run build 2>&1 | tee reports/npm-build.txt
-```
+The manual browser, scenario, keyboard and Windows Narrator results are recorded in `manual-check.md`.
 
-Record the actual command output. Do not replace it with a summary or claim a pass when a command has not been run.
+**Clean-checkout limitation:** These command logs are from the working checkout, not a fresh clone. Before claiming clean-checkout verification, clone the submitted commit into a new directory, run `npm ci`, `npm test`, `npm run lint` and `npm run build`, and capture those outputs separately. Do not replace the existing logs with summaries or claim a clean-checkout pass before running those commands.
