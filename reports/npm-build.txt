@@ -1,0 +1,14 @@
+
+> neli-catalogue@0.0.0 build
+> tsc -b && vite build
+
+[36mvite v8.3.8 [32mbuilding client environment for production...[36m[39m
+transforming...
+✓ 24 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.46 kB │ gzip:  0.29 kB
+dist/assets/index-vXEBBmBs.css    6.87 kB │ gzip:  2.22 kB
+dist/assets/index-CA-3OrlH.js   228.99 kB │ gzip: 71.63 kB
+
+[32m✓ built in 1.10s[39m
