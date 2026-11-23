@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { Catalogue } from "../src/components/Catalogue";
@@ -128,6 +128,8 @@ describe("Catalogue component", () => {
 
     await user.click(screen.getByRole("button", { name: "Active" }));
     await waitFor(() => expect(screen.queryByRole("button", { name: "Try again" })).not.toBeInTheDocument());
-    release(pageFor({ search: "x", status: "active", page: 1, pageSize: 5 }, allProducts));
+    await act(async () => {
+      release(pageFor({ search: "x", status: "active", page: 1, pageSize: 5 }, allProducts));
+    });
   });
 });
