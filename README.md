@@ -52,7 +52,7 @@ These timers are for the local demo only. Request ordering is guarded by request
 
 Automated tests cover page size and total, search by name/SKU, status filtering, stable sorting, empty results, retry after failure, stale-response protection and recovery when a result total shrinks. See tests/.
 
-Manual browser checks are recorded in reports/manual-check.md. Captured command output is stored in reports/ when the final local verification run is completed.
+Manual browser checks are recorded in reports/manual-check.md. Captured output from the final local test, lint and production-build commands is stored in reports/npm-test.txt, reports/npm-lint.txt and reports/npm-build.txt. These are local working-checkout results; a separate fresh-clone verification is still required before claiming clean-checkout verification.
 
 ## File index
 
@@ -71,10 +71,10 @@ Manual browser checks are recorded in reports/manual-check.md. Captured command 
 
 ## Time record and assumptions
 
-- Active implementation and verification time: **[Candidate: enter actual time spent]**.
-- Lead-notes allowance: **[Candidate: enter actual time spent, maximum 30 minutes]**.
+- Active implementation and verification time: not tracked contemporaneously, so an exact total cannot be reported reliably.
+- Lead-notes preparation time: not tracked contemporaneously, so an exact total cannot be reported reliably.
 - Setup blockers: Windows initially encountered a locked native dependency file during installation; closing the running development process/editor and rerunning installation resolved it. Vitest was configured to use a single thread worker after the default worker startup was unreliable in the local Windows environment.
-- Remaining unverified items must be listed in reports/manual-check.md; do not mark a check as passed until it has been performed.
+- Current manual results and remaining unverified checks are listed in reports/manual-check.md. The clean-checkout test remains outstanding.
 
 Assumptions: the supplied fixture is the only data source; the API contract, authentication, authorisation, production error model and service-level expectations are not provided. The demo uses page-based pagination and a fixed page size of five.
 
@@ -84,4 +84,4 @@ ChatGPT (OpenAI) was used as an AI-assisted development and review tool for impl
 
 Runtime dependencies React and React DOM, and development dependencies listed in package.json, are third-party open-source packages. Their respective licences and package metadata are recorded in the lockfile and package distribution. Review each package's licence before redistributing it outside its permitted terms.
 
-The supplied synthetic fixture is included solely for this assessment and should not be treated as production data or reused outside the assessment without permission. The candidate-authored implementation is provided for assessment review; any later reuse or production adoption remains subject to Neli Arabi GmbH's technical/security review and a separate agreement on reuse terms. No company systems, credentials, customer data or supplier APIs were accessed.
+The supplied synthetic fixture was compared byte-for-byte with the original assessment fixture on 23 November 2026 and matched. It is included solely for this assessment and should not be treated as production data or reused outside the assessment without permission. The candidate-authored implementation is provided for assessment review; any later reuse or production adoption remains subject to Neli Arabi GmbH's technical/security review and a separate agreement on reuse terms. No company systems, credentials, customer data or supplier APIs were accessed.
