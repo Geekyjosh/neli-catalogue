@@ -57,6 +57,17 @@ describe("useCatalogue", () => {
     expect(result.current.dataQuery).toEqual({ ...pageThreeQuery, page: 2 });
   });
 
+  it("normalizes an empty result to page one", async () => {
+    const emptyResponse: CatalogueResponse = { items: [], total: 0 };
+    const pageFourQuery = { ...query, page: 4 };
+    const fetchPage = vi.fn<FetchPage>().mockResolvedValue(emptyResponse);
+    const { result } = renderHook(() => useCatalogue(fetchPage, pageFourQuery));
+
+    await waitFor(() => expect(result.current.data).toEqual(emptyResponse));
+    expect(result.current.dataQuery).toEqual({ ...pageFourQuery, page: 1 });
+    expect(fetchPage).toHaveBeenCalledTimes(1);
+  });
+
   it("does not allow an older, slower response to overwrite a newer response", async () => {
     let resolveOld!: (value: CatalogueResponse) => void;
     const oldResponse = new Promise<CatalogueResponse>((resolve) => { resolveOld = resolve; });
