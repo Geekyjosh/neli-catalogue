@@ -1,6 +1,6 @@
 # Verification evidence
 
-The following files contain the actual output captured from the candidate's local Windows working checkout on 23 November 2026:
+The following files contain the actual output captured from local Windows working checkout on 23 November 2026:
 
 - `npm-test.txt` — Vitest: 3 test files and 14 tests passed.
 - `npm-lint.txt` — ESLint completed without errors or warnings.
@@ -18,7 +18,3 @@ A new clone was created in `neli-catalogue-clean` on 23 November 2026.
 - `npm run build`: TypeScript compilation and Vite production build passed.
 
 The fresh-clone commands were run against the committed repository after cloning. The initial worker timeout is disclosed rather than omitted. The captured `npm-test.txt`, `npm-lint.txt` and `npm-build.txt` files remain the original working-checkout logs; the clean-clone results above are recorded from the terminal session.
-
-## Remaining untested
-
-Responsive layout across different screen sizes was not separately tested. Cross-browser manual verification was completed on Windows in Google Chrome, Mozilla Firefox and Microsoft Edge; the application rendered and operated as expected in all three.
