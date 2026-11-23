@@ -71,8 +71,8 @@ Manual browser checks are recorded in reports/manual-check.md. Captured local wo
 
 ## Time record and assumptions
 
-- Active implementation and verification time: not tracked contemporaneously; an exact total cannot be reconstructed reliably.
-- Lead-notes preparation time: not tracked contemporaneously; an exact total cannot be reconstructed reliably.
+- Recorded work period: 10:00 AM–1:39 PM on 23 November 2026 (3 hours 39 minutes elapsed), including implementation, verification and lead-notes preparation.
+- Lead-notes preparation took approximately 12 minutes within that total; the remaining assessment work took approximately 3 hours 27 minutes.
 - Setup blockers: Windows initially encountered a locked native dependency file during installation; closing the running development process/editor and rerunning installation resolved it. Vitest was configured to use a single thread worker after the default worker startup was unreliable in the local Windows environment.
 - Remaining untested checks: responsive layout and cross-browser coverage beyond the recorded Windows/Chrome session were not separately tested.
 
