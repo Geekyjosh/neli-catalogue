@@ -17,4 +17,4 @@ A new clone was created in `neli-catalogue-clean` on 23 November 2026.
 - `npm run lint`: passed.
 - `npm run build`: TypeScript compilation and Vite production build passed.
 
-The fresh-clone commands were run against the committed repository after cloning. The initial worker timeout is disclosed rather than omitted. The captured `npm-test.txt`, `npm-lint.txt` and `npm-build.txt` files remain the original working-checkout logs; the clean-clone results above are recorded from the terminal session.
+The fresh-clone commands were run against the committed repository after cloning with the project runtime specified above. The separate review environment's Node 22.16.0 install attempt is not the assessment verification environment and is not used to replace these recorded results. The initial worker timeout is disclosed rather than omitted. The captured `npm-test.txt`, `npm-lint.txt` and `npm-build.txt` files remain the original working-checkout logs; the clean-clone results above are recorded from the terminal session.
