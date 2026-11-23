@@ -52,7 +52,7 @@ These timers are for the local demo only. Request ordering is guarded by request
 
 Automated tests cover page size and total, search by name/SKU, status filtering, stable sorting, empty results, retry after failure, stale-response protection and recovery when a result total shrinks. See tests/.
 
-Manual browser checks are recorded in reports/manual-check.md. Captured output from the final local test, lint and production-build commands is stored in reports/npm-test.txt, reports/npm-lint.txt and reports/npm-build.txt. These are local working-checkout results; a separate fresh-clone verification is still required before claiming clean-checkout verification.
+Manual browser checks are recorded in reports/manual-check.md. The interface was manually tested on Windows in Google Chrome, Mozilla Firefox and Microsoft Edge; it rendered and operated as expected in all three browsers. Responsive layout was also manually checked on mobile and desktop screen sizes and worked as expected. Captured local working-checkout output is stored in reports/npm-test.txt, reports/npm-lint.txt and reports/npm-build.txt. A fresh clone was also verified on 23 November 2026 using Node.js 24.21.0 and npm 11.19.0: npm ci completed with 0 reported vulnerabilities; npm test passed all 14 tests across 3 files; npm run lint passed; and npm run build passed. The first combined test invocation had an intermittent Vitest worker-startup timeout; an immediate standalone npm test rerun passed with no unhandled errors. See reports/manual-check.md for the full record.
 
 ## File index
 
@@ -71,11 +71,19 @@ Manual browser checks are recorded in reports/manual-check.md. Captured output f
 
 ## Time record and assumptions
 
+<<<<<<< HEAD
 - Total assessment work period: 10:00 AM-1:39 PM on 23 November 2026 (3 hours 39 minutes elapsed), including implementation, verification and lead-notes preparation.
 - Lead-notes preparation: approximately 30 minutes, included in the total.
 - Other assessment work: approximately 3 hours 9 minutes.
 - Setup blockers: Windows initially encountered a locked native dependency file during installation; closing the running development process/editor and rerunning installation resolved it. Vitest was configured to use a single thread worker after the default worker startup was unreliable in the local Windows environment.
 - Remaining untested checks: responsive layout and cross-browser coverage beyond the recorded Windows/Chrome session were not separately tested.
+=======
+- Recorded work period: 10:00 AM–1:39 PM on 23 November 2026 (3 hours 39 minutes elapsed), including implementation, verification and lead-notes preparation.
+- Lead-notes preparation took approximately 25 minutes within that total; the remaining assessment work took approximately 3 hours 14 minutes.
+- Setup blockers: Windows initially encountered a locked native dependency file during installation; closing the running development process/editor and rerunning installation resolved it. Vitest was configured to use a single thread worker after the default worker startup was unreliable in the local Windows environment.
+- Browser compatibility: manually verified on Windows in Google Chrome, Mozilla Firefox and Microsoft Edge; all three browsers rendered and operated as expected.
+- Responsive layout: manually checked on mobile and desktop screen sizes; the layout adapted and worked as expected.
+>>>>>>> ab9532f31956937a8e4f25e5f935eb4a6cc19bd6
 
 Assumptions: the supplied fixture is the only data source; the API contract, authentication, authorisation, production error model and service-level expectations are not provided. The demo uses page-based pagination and a fixed page size of five.
 

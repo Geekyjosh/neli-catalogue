@@ -19,23 +19,25 @@ Each effect invocation receives an incrementing request identity and is invalida
 - The assessment supplies synthetic data and simulated scenarios only.
 - No production API schema, authentication, authorisation or service-level expectations were supplied.
 - The production adapter should not be implemented until the backend contract and ownership are agreed.
-- The supplied fixture was byte-compared with the original assessment asset on 23 November 2026 and matched. A fresh-clone clean-checkout run remains outstanding.
+- The supplied fixture was byte-compared with the original assessment asset on 23 November 2026 and matched.
+- Fresh-clone verification was completed on 23 November 2026 using Node.js 24.21.0 and npm 11.19.0: npm ci succeeded with 0 reported vulnerabilities; a standalone npm test rerun passed all 14 tests; lint and production build passed. The initial combined test invocation had an intermittent worker-startup timeout, which is disclosed in reports/manual-check.md.
+- Manual assessment checks were completed: scenario behaviour, keyboard navigation, Windows Narrator, Google Chrome, Mozilla Firefox, Microsoft Edge, and responsive layout on mobile and desktop. Results are recorded in reports/manual-check.md.
 
 ## Adoption plan and owners
 1. Frontend owner: confirm table columns, English sorting expectations, accessibility requirements and loading/error copy with product/design.
 2. API owner: publish endpoint contract, pagination semantics, error model and authentication/authorisation requirements.
 3. Frontend owner: implement an authorised FetchPage adapter against the approved contract while preserving the view-facing types where possible.
-4. QA owner: add contract tests and verify keyboard, screen-reader, responsive and failure behaviour in supported browsers.
+4. QA owner: add production-adapter contract tests and run any additional regression checks required for the agreed production browser/device support matrix. The assessment's Chrome, Firefox, Edge, mobile and desktop checks are already complete and recorded in reports/manual-check.md.
 5. Security/product owners: review data handling, credentials, dependency licences and reuse terms before production adoption.
 
 ## Verification gates
 - npm ci completes from a clean checkout.
-- npm test, npm run lint and npm run build pass.
+- npm test, npm run lint and npm run build pass; clean-clone results are recorded in reports/manual-check.md.
 - Automated tests cover normal pagination, sorting ties, search/status intersection, page reset, empty results, shrinking totals, failure/retry and out-of-order responses.
-- Manual keyboard and screen-reader checks are recorded honestly in reports/.
+- Manual keyboard and screen-reader checks are recorded in reports/.
 - The fixture matches the supplied original file byte-for-byte (comparison completed 23 November 2026).
-- The local manual scenario, keyboard and Windows Narrator checks are recorded in reports/manual-check.md.
-- Captured local test, lint and build output is committed under reports/. A separate clean-clone run is still required.
+- Manual scenario, keyboard, Windows Narrator, cross-browser and responsive checks are complete and recorded in reports/manual-check.md.
+- Captured local test, lint and build output is committed under reports/.
 
 ## Rollback
 If a regression is identified, revert the relevant implementation commit(s) on the main branch. Retain the fixture and test tooling for local regression testing.

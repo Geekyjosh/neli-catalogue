@@ -47,7 +47,9 @@ Example output:
 
 ## Run locally
 
-1. Install the documented Node.js LTS version.
+Tested runtime: Node.js 24.21.0 and npm 11.19.0 (Node version is specified in .nvmrc).
+
+1. Install the documented Node.js version.
 2. Run npm ci.
 3. Run npm run dev.
 4. Run npm test.
@@ -81,4 +83,6 @@ The fixture adapter is isolated in src/adapters/fixtureAdapter.ts. To integrate 
 
 ## Verification records
 
-See reports/manual-check.md for the manual keyboard and scenario check record. The local verification command output is committed in reports/npm-test.txt, reports/npm-lint.txt and reports/npm-build.txt. Manual scenario, keyboard and Windows Narrator checks are recorded in reports/manual-check.md. A fresh-clone clean-checkout verification remains a final pre-submission gate.
+Assessment verification is complete. See reports/manual-check.md for the manual scenario, keyboard, Windows Narrator, browser and responsive-layout results. The interface was manually tested on Windows in Google Chrome, Mozilla Firefox and Microsoft Edge and rendered and operated as expected in all three. Responsive layout was manually checked on mobile and desktop screen sizes and worked as expected.
+
+A fresh clone was created on 23 November 2026 using Node.js 24.21.0 and npm 11.19.0. npm ci completed successfully (225 packages added, 226 audited, 0 vulnerabilities reported); a standalone npm test rerun passed all 3 test files and 14 tests; npm run lint passed; and npm run build passed. The first combined test invocation had an intermittent Vitest worker-startup timeout, which is disclosed in reports/manual-check.md. Captured local working-checkout output is committed in reports/npm-test.txt, reports/npm-lint.txt and reports/npm-build.txt.
