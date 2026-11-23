@@ -13,6 +13,7 @@ describe("useCatalogue", () => {
     await waitFor(() => expect(result.current.data).toEqual(response));
     expect(result.current.loading).toBe(false);
     expect(result.current.error).toBeNull();
+    expect(result.current.dataQuery).toEqual(query);
   });
 
   it("keeps the last successful results when a later request fails and supports retry", async () => {
@@ -30,10 +31,30 @@ describe("useCatalogue", () => {
     rerender({ currentQuery: { ...query, search: "desk" } });
     await waitFor(() => expect(result.current.error).toBe("Temporary failure"));
     expect(result.current.data).toEqual(response);
+    expect(result.current.dataQuery).toEqual(query);
 
     act(() => result.current.retry());
     await waitFor(() => expect(result.current.data?.total).toBe(2));
     expect(result.current.error).toBeNull();
+  });
+
+  it("requests the new last page when the total shrinks", async () => {
+    const pageThreeResponse: CatalogueResponse = { items: [], total: 7 };
+    const lastPageResponse: CatalogueResponse = {
+      items: [{ id: "7", sku: "SKU-7", name: "Last item", stock: 1, status: "active" }],
+      total: 7,
+    };
+    const fetchPage = vi.fn<FetchPage>()
+      .mockResolvedValueOnce(pageThreeResponse)
+      .mockResolvedValueOnce(lastPageResponse);
+    const pageThreeQuery = { ...query, page: 3 };
+
+    const { result } = renderHook(() => useCatalogue(fetchPage, pageThreeQuery));
+
+    await waitFor(() => expect(result.current.data).toEqual(lastPageResponse));
+    expect(fetchPage).toHaveBeenNthCalledWith(1, pageThreeQuery);
+    expect(fetchPage).toHaveBeenNthCalledWith(2, { ...pageThreeQuery, page: 2 });
+    expect(result.current.dataQuery).toEqual({ ...pageThreeQuery, page: 2 });
   });
 
   it("does not allow an older, slower response to overwrite a newer response", async () => {
