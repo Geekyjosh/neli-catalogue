@@ -40,6 +40,10 @@ export function useCatalogue(fetchPage: FetchPage, query: CatalogueQuery) {
         let response = await fetchPage(requestedQuery);
         let resolvedQuery = requestedQuery;
 
+        if (response.total === 0) {
+          resolvedQuery = { ...requestedQuery, page: 1 };
+        }
+
         // If the result set shrank while the user was on a later page,
         // make exactly one request for the new last page.
         if (response.total > 0) {
