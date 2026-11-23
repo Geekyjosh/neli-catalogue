@@ -52,7 +52,7 @@ These timers are for the local demo only. Request ordering is guarded by request
 
 Automated tests cover page size and total, search by name/SKU, status filtering, stable sorting, empty results, retry after failure, stale-response protection and recovery when a result total shrinks. See tests/.
 
-Manual browser checks are recorded in reports/manual-check.md. Captured output from the final local test, lint and production-build commands is stored in reports/npm-test.txt, reports/npm-lint.txt and reports/npm-build.txt. These are local working-checkout results; a separate fresh-clone verification is still required before claiming clean-checkout verification.
+Manual browser checks are recorded in reports/manual-check.md. Captured local working-checkout output is stored in reports/npm-test.txt, reports/npm-lint.txt and reports/npm-build.txt. A fresh clone was also verified on 23 November 2026: npm ci completed with 0 reported vulnerabilities; npm test passed all 14 tests across 3 files; npm run lint passed; and npm run build passed. The first combined test invocation had an intermittent Vitest worker-startup timeout; an immediate standalone npm test rerun passed with no unhandled errors. See reports/manual-check.md for the full record.
 
 ## File index
 
@@ -71,10 +71,10 @@ Manual browser checks are recorded in reports/manual-check.md. Captured output f
 
 ## Time record and assumptions
 
-- Active implementation and verification time: not tracked contemporaneously, so an exact total cannot be reported reliably.
-- Lead-notes preparation time: not tracked contemporaneously, so an exact total cannot be reported reliably.
+- Active implementation and verification time: not tracked contemporaneously; an exact total cannot be reconstructed reliably.
+- Lead-notes preparation time: not tracked contemporaneously; an exact total cannot be reconstructed reliably.
 - Setup blockers: Windows initially encountered a locked native dependency file during installation; closing the running development process/editor and rerunning installation resolved it. Vitest was configured to use a single thread worker after the default worker startup was unreliable in the local Windows environment.
-- Current manual results and remaining unverified checks are listed in reports/manual-check.md. The clean-checkout test remains outstanding.
+- Remaining untested checks: responsive layout and cross-browser coverage beyond the recorded Windows/Chrome session were not separately tested.
 
 Assumptions: the supplied fixture is the only data source; the API contract, authentication, authorisation, production error model and service-level expectations are not provided. The demo uses page-based pagination and a fixed page size of five.
 
