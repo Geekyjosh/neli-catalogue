@@ -81,4 +81,4 @@ The fixture adapter is isolated in src/adapters/fixtureAdapter.ts. To integrate 
 
 ## Verification records
 
-See reports/manual-check.md for the manual keyboard and scenario check record. Automated command output should be captured in reports/ after the final local verification run.
+See reports/manual-check.md for the manual keyboard and scenario check record. The local verification command output is committed in reports/npm-test.txt, reports/npm-lint.txt and reports/npm-build.txt. Manual scenario, keyboard and Windows Narrator checks are recorded in reports/manual-check.md. A fresh-clone clean-checkout verification remains a final pre-submission gate.
