@@ -1,7 +1,7 @@
 # Manual verification record
 
 **Date:** 23 November 2026  
-**Environment:** Windows desktop; Google Chrome, Mozilla Firefox and Microsoft Edge; local Vite development server; Windows Narrator.  
+**Environment:** Windows desktop and mobile screen sizes; Google Chrome, Mozilla Firefox and Microsoft Edge; local Vite development server; Windows Narrator.  
 **Record:** I performed these checks against the current local project and confirmed the results in the assessment session.
 
 | Check                                                                     | Status | Notes                                                                                                                                                     |
@@ -18,6 +18,7 @@
 | Keyboard access and visible focus                                         | PASS   | Tab navigation reached the controls and table interactions; focus was visible.                                                                            |
 | Screen-reader announcement and accessible names                           | PASS   | Windows Narrator announced the search, status filter, table headers and pagination controls.                                                              |
 | Cross-browser operation                                                   | PASS   | Manually tested on Windows in Google Chrome, Mozilla Firefox and Microsoft Edge; the application rendered and operated as expected in all three browsers. |
+| Responsive layout on mobile and desktop                                   | PASS   | Manually checked on mobile and desktop screen sizes; the layout adapted and worked as expected. |
 
 ## Automated verification — working checkout
 
@@ -31,7 +32,7 @@ Captured terminal output is stored in `npm-test.txt`, `npm-lint.txt` and `npm-bu
 
 ## Clean-clone verification
 
-A fresh clone was created in `neli-catalogue-clean` and dependencies were installed using `npm ci`:
+A fresh clone was created in `neli-catalogue-clean` using Node.js 24.21.0 (the version specified in `.nvmrc`) and npm 11.19.0; dependencies were installed using `npm ci`:
 
 - **npm ci - PASS:** 225 packages added, 226 audited, 0 vulnerabilities reported.
 - **npm test - PASS:** the first combined invocation encountered an intermittent worker-startup timeout. A separate immediate rerun passed all 3 test files and all 14 tests with no unhandled errors.
