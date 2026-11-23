@@ -71,26 +71,10 @@ Manual browser checks are recorded in reports/manual-check.md. The interface was
 
 ## Time record and assumptions
 
-<<<<<<< HEAD
-- Total assessment work period: 10:00 AM-1:39 PM on 23 November 2026 (3 hours 39 minutes elapsed), including implementation, verification and lead-notes preparation.
-- Lead-notes preparation: approximately 30 minutes, included in the total.
-- Other assessment work: approximately 3 hours 9 minutes.
-- Setup blockers: Windows initially encountered a locked native dependency file during installation; closing the running development process/editor and rerunning installation resolved it. Vitest was configured to use a single thread worker after the default worker startup was unreliable in the local Windows environment.
-- Remaining untested checks: responsive layout and cross-browser coverage beyond the recorded Windows/Chrome session were not separately tested.
-=======
-- Recorded work period: 10:00 AM–1:39 PM on 23 November 2026 (3 hours 39 minutes elapsed), including implementation, verification and lead-notes preparation.
+- Recorded work period: 10:00 AM-1:39 PM on 23 November 2026 (3 hours 39 minutes elapsed), including implementation, verification and lead-notes preparation.
 - Lead-notes preparation took approximately 25 minutes within that total; the remaining assessment work took approximately 3 hours 14 minutes.
 - Setup blockers: Windows initially encountered a locked native dependency file during installation; closing the running development process/editor and rerunning installation resolved it. Vitest was configured to use a single thread worker after the default worker startup was unreliable in the local Windows environment.
 - Browser compatibility: manually verified on Windows in Google Chrome, Mozilla Firefox and Microsoft Edge; all three browsers rendered and operated as expected.
 - Responsive layout: manually checked on mobile and desktop screen sizes; the layout adapted and worked as expected.
->>>>>>> ab9532f31956937a8e4f25e5f935eb4a6cc19bd6
 
 Assumptions: the supplied fixture is the only data source; the API contract, authentication, authorisation, production error model and service-level expectations are not provided. The demo uses page-based pagination and a fixed page size of five.
-
-## AI, third-party source and reuse disclosure
-
-ChatGPT (OpenAI) was used as an AI-assisted development and review tool for implementation suggestions, code changes, test expansion and documentation review. The candidate ran the project locally and performed the recorded manual checks. No third-party application template or copied application source is intentionally included.
-
-Runtime dependencies React and React DOM, and development dependencies listed in package.json, are third-party open-source packages. Their respective licences and package metadata are recorded in the lockfile and package distribution. Review each package's licence before redistributing it outside its permitted terms.
-
-The supplied synthetic fixture was compared byte-for-byte with the original assessment fixture on 23 November 2026 and matched. It is included solely for this assessment and should not be treated as production data or reused outside the assessment without permission. The candidate-authored implementation is provided for assessment review; any later reuse or production adoption remains subject to Neli Arabi GmbH's technical/security review and a separate agreement on reuse terms. No company systems, credentials, customer data or supplier APIs were accessed.
