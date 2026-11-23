@@ -20,13 +20,20 @@ export function useCatalogue(fetchPage: FetchPage, query: CatalogueQuery) {
     const requestId = ++latestRequest.current;
     let active = true;
 
+    // Loading is set when a request starts; previous data is deliberately retained.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setState((current) => ({
       ...current,
       loading: true,
       error: null,
     }));
 
-    fetchPage(query)
+    fetchPage({
+      search: query.search,
+      status: query.status,
+      page: query.page,
+      pageSize: query.pageSize,
+    })
       .then((data) => {
         if (!active || requestId !== latestRequest.current) return;
         setState({ data, loading: false, error: null });
