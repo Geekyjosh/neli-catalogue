@@ -60,7 +60,8 @@ Manual browser checks are recorded in reports/manual-check.md. Captured command 
 - src/adapters/fixtureAdapter.ts: local synthetic demo adapter.
 - src/hooks/useCatalogue.ts: asynchronous request state, retry and request sequencing.
 - src/utils/catalogueUtils.ts: filtering, sorting and pagination.
-- src/components/: catalogue table and labelled toolbar controls.
+- src/components/Catalogue.tsx: reusable catalogue view that accepts an injected FetchPage adapter.
+- src/components/: semantic catalogue table and labelled toolbar controls.
 - src/App.tsx: local demo shell and scenario selector.
 - tests/: automated unit and hook tests.
 - fixtures/catalogue.json: supplied assessment fixture.
