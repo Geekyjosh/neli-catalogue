@@ -35,6 +35,19 @@ Example output:
       total: 1
     }
 
+## Component props
+
+`<Catalogue fetchPage={fetchPage} pageSize={5} />`
+
+- `fetchPage` (required): a `FetchPage`. Pass a stable reference (module constant, `useMemo` or `useCallback`); a new function identity starts a new request.
+- `pageSize` (optional, default 5): sent to the adapter as `query.pageSize`.
+
+The component has no dependency on fixtures or the demo scenario selector.
+
+## Replacing the mock without rewriting the view
+
+Only the `fetchPage` prop changes. Map the service response to `{ items, total }`, honour the documented sort (name, then id) and pagination semantics, throw or reject on failure with an `Error` whose message is safe to show, and keep `src/adapters/fixtureAdapter.ts` for tests and demos.
+
 ## What is included
 
 - React and TypeScript catalogue demo.
@@ -83,6 +96,6 @@ The fixture adapter is isolated in src/adapters/fixtureAdapter.ts. To integrate 
 
 ## Verification records
 
-Assessment verification is complete. See reports/manual-check.md for the manual scenario, keyboard, Windows Narrator, browser and responsive-layout results. The interface was manually tested on Windows in Google Chrome, Mozilla Firefox and Microsoft Edge and rendered and operated as expected in all three. Responsive layout was manually checked on mobile and desktop screen sizes and worked as expected.
+I recorded verification for the earlier revision. I have NOT RUN verification yet for the latest revision (extra tests, exact dependency pins, removal of template assets, `pageSize` prop fix). See reports/manual-check.md for the manual scenario, keyboard, Windows Narrator, browser and responsive-layout results. I manually tested the interface on Windows in Google Chrome, Mozilla Firefox and Microsoft Edge, and it rendered and operated as expected in all three. I also manually checked the responsive layout on mobile and desktop screen sizes, and it worked as expected.
 
-A fresh clone was created on 23 November 2026 using Node.js 24.21.0 and npm 11.19.0. npm ci completed successfully (225 packages added, 226 audited, 0 vulnerabilities reported); a standalone npm test rerun passed all 3 test files and 14 tests; npm run lint passed; and npm run build passed. The first combined test invocation had an intermittent Vitest worker-startup timeout, which is disclosed in reports/manual-check.md. Captured local working-checkout output is committed in reports/npm-test.txt, reports/npm-lint.txt and reports/npm-build.txt.
+I created a fresh clone on 23 November 2026 using Node.js 24.21.0 and npm 11.19.0. npm ci completed successfully (225 packages added, 226 audited, 0 vulnerabilities reported); a standalone npm test rerun passed all 3 test files and 14 tests; npm run lint passed; and npm run build passed. The first combined test invocation had an intermittent Vitest worker-startup timeout, which I disclosed in reports/manual-check.md. I committed the captured local working-checkout output in reports/npm-test.txt, reports/npm-lint.txt and reports/npm-build.txt.

@@ -1,80 +1,96 @@
 # Neli Catalogue
 
-A reusable React + TypeScript product catalogue exercise demonstrating asynchronous page loading, search, status filtering, deterministic sorting, pagination, stale-request protection and recoverable errors. The demo uses only the supplied synthetic fixture.
+A reusable React + TypeScript product catalogue table with an injectable asynchronous data adapter: search, status filter, deterministic sorting, pagination, newest-request-wins protection and recoverable errors. The demo uses only the supplied synthetic fixture.
 
 ## Prerequisites and tested runtime
 
-- Node.js 24.21.0
-- npm 11.19.0
-- A browser supported by the installed Vite version
+- Node.js 24.21.0 (see `.nvmrc`), npm 11.19.0
+- A browser supported by Vite 8
+- Dependencies are pinned to exact versions in `package.json` and locked in `package-lock.json`.
 
-The project uses the committed package-lock.json to keep dependency resolution reproducible.
-
-## Install, run and verify
-
-Run these commands from the project root:
+## Commands
 
 ```bash
-npm ci
-npm run dev
-npm test
+npm ci          # install exactly the locked versions
+npm run dev     # local demo; Vite prints the URL
+npm test        # vitest (jsdom), no network
 npm run lint
 npm run build
 ```
 
-Vite prints the local development URL after npm run dev starts. The application and tests use local files only; no backend, credentials or runtime API access is required. All demo data is read from fixtures/catalogue.json.
+After install nothing needs a network or backend. All data comes from `fixtures/catalogue.json`.
 
-## Catalogue contract
+## Component props
 
-The adapter contract is exported from src/adapters/types.ts:
+```tsx
+import { Catalogue } from "./components/Catalogue";
+<Catalogue fetchPage={fetchPage} pageSize={5} />;
+```
 
-- Product: id, sku, name, stock, and status.
-- CatalogueQuery: search, status, 1-based page, and pageSize.
-- CatalogueResponse: items for the requested page and total before pagination.
-- FetchPage: a function accepting CatalogueQuery and returning Promise<CatalogueResponse>.
+| Prop        | Type        | Default  | Notes                                                                                                                                                              |
+| ----------- | ----------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `fetchPage` | `FetchPage` | required | `(query) => Promise<{ items, total }>`. Pass a **stable reference** (module constant, `useMemo` or `useCallback`). A new function identity triggers a new request. |
+| `pageSize`  | `number`    | `5`      | Sent to the adapter as `query.pageSize`. Changing it is honoured on the next request.                                                                              |
 
-The demo uses a page size of five. Search is trimmed and case-insensitive across product name and SKU. Status filtering is applied before sorting. Names are sorted in English locale order with base sensitivity; IDs break equal-name ties. The view resets to page one when search or status changes.
+## Adapter contract
 
-The asynchronous state and request identity logic live in src/hooks/useCatalogue.ts. The fixture implementation is isolated in src/adapters/fixtureAdapter.ts; a future integration can provide an authorised FetchPage implementation without changing the query and response types. Agree the endpoint, authentication, error and pagination contracts before connecting a production service.
+Exported from `src/adapters/types.ts`:
+
+- `Product`: `id`, `sku`, `name`, `stock`, `status` (`active | draft | archived`)
+- `CatalogueQuery`: `search`, `status` (`all | active | draft | archived`), 1-based `page`, `pageSize`
+- `CatalogueResponse`: `items` (the requested page) and `total` (matches before pagination)
+- `FetchPage`: `(query: CatalogueQuery) => Promise<CatalogueResponse>`
+
+Reference behaviour (`src/utils/catalogueUtils.ts`): search is trimmed and case-insensitive against name or SKU. Filter first, then sort by name with `localeCompare("en", { sensitivity: "base" })` (case- and accent-insensitive English order), break ties by `id`, then paginate. Empty results use page 1. If `total > 0` and the page is past the end, the view issues exactly one request for the last page. Full integration notes: `HANDOVER.md`.
 
 ## Demo scenarios
 
-Choose a scenario from the Demo scenario selector:
-
-- **Normal:** resolves after a short delay.
-- **Failure:** the first request fails and retry succeeds.
-- **Race:** the first request is deliberately slower than the next request.
-- **Empty:** returns no matching products.
-
-These timers are for the local demo only. Request ordering is guarded by request identity, not by the expected duration of a response.
-
-## Verification
-
-Automated tests cover page size and total, search by name/SKU, status filtering, stable sorting, empty results, retry after failure, stale-response protection and recovery when a result total shrinks. See tests/.
-
-Manual browser checks are recorded in reports/manual-check.md. The interface was manually tested on Windows in Google Chrome, Mozilla Firefox and Microsoft Edge; it rendered and operated as expected in all three browsers. Responsive layout was also manually checked on mobile and desktop screen sizes and worked as expected. Captured local working-checkout output is stored in reports/npm-test.txt, reports/npm-lint.txt and reports/npm-build.txt. A fresh clone was also verified on 23 November 2026 using Node.js 24.21.0 and npm 11.19.0: npm ci completed with 0 reported vulnerabilities; npm test passed all 14 tests across 3 files; npm run lint passed; and npm run build passed. The first combined test invocation had an intermittent Vitest worker-startup timeout; an immediate standalone npm test rerun passed with no unhandled errors. See reports/manual-check.md for the full record.
+Selector in the page heading (demo only; the reusable component never reads it): **Normal** (100 ms), **Failure** (first request rejects, retry succeeds), **Race** (first request 600 ms, later requests 50 ms), **Empty** (no matches). Timers exist only in the demo adapter. Ordering correctness uses request identity, not timing.
 
 ## File index
 
-- src/adapters/types.ts: exported product, query, response and adapter types.
-- src/adapters/fixtureAdapter.ts: local synthetic demo adapter.
-- src/hooks/useCatalogue.ts: asynchronous request state, retry and request sequencing.
-- src/utils/catalogueUtils.ts: filtering, sorting and pagination.
-- src/components/Catalogue.tsx: reusable catalogue view that accepts an injected FetchPage adapter.
-- src/components/: semantic catalogue table and labelled toolbar controls.
-- src/App.tsx: local demo shell and scenario selector.
-- tests/: automated unit and hook tests.
-- fixtures/catalogue.json: supplied assessment fixture.
-- reports/: verification records and captured output.
-- HANDOVER.md: adapter contract, integration and recovery notes.
-- LEAD_NOTES.md: architecture, blockers, adoption, gates and rollback.
+- `src/adapters/types.ts`: exported types
+- `src/adapters/fixtureAdapter.ts`: mock adapter and scenarios (kept separate from the core)
+- `src/hooks/useCatalogue.ts`: async state, retry, request identity, last-page recovery
+- `src/utils/catalogueUtils.ts`: pure filter, sort and paginate
+- `src/components/`: `Catalogue.tsx` (reusable view), `CatalogueTable.tsx`, `CatalogueToolbar.tsx`
+- `src/App.tsx`: demo shell and scenario selector
+- `tests/`: automated tests
+- `fixtures/catalogue.json`: supplied fixture, unchanged
+- `reports/`: captured output and `manual-check.md`
+- `HANDOVER.md`: API contract, examples, integration, rollback
+- `LEAD_NOTES.md`: state ownership, error policy, blockers, adoption plan
 
-## Time record and assumptions
+## Tests
 
-- Recorded work period: 10:00 AM-1:39 PM on 23 November 2026 (3 hours 39 minutes elapsed), including implementation, verification and lead-notes preparation.
-- Lead-notes preparation took approximately 25 minutes within that total; the remaining assessment work took approximately 3 hours 14 minutes.
-- Setup blockers: Windows initially encountered a locked native dependency file during installation; closing the running development process/editor and rerunning installation resolved it. Vitest was configured to use a single thread worker after the default worker startup was unreliable in the local Windows environment.
-- Browser compatibility: manually verified on Windows in Google Chrome, Mozilla Firefox and Microsoft Edge; all three browsers rendered and operated as expected.
-- Responsive layout: manually checked on mobile and desktop screen sizes; the layout adapted and worked as expected.
+Cases covered: pagination and stable ordering (including reverse-id input), search/status intersection and page reset, empty results, page bounds, shrinking total with one last-page request, failure with labelled old rows then retry, Retry withdrawn on filter change, older request resolving or failing last, keyboard operation, accessible names and disabled pagination. Additional cases use different ids and data (`desk`/`lamp` products, `z-900`/`a-100`/`m-500`, a mutable shrinking dataset).
 
-Assumptions: the supplied fixture is the only data source; the API contract, authentication, authorisation, production error model and service-level expectations are not provided. The demo uses page-based pagination and a fixed page size of five.
+## Verification status
+
+| Item                                                                                                            | Status                                                                                                    |
+| --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Earlier revision: `npm test` (14 tests), lint, build                                                            | PASS (logs in `reports/npm-*.txt`)                                                                        |
+| Earlier revision: clean-clone `npm ci`, test, lint, build                                                       | PASS (see `reports/manual-check.md`)                                                                      |
+| This revision: 7 added or changed tests, exact dependency pins, removal of template assets, `pageSize` prop fix | NOT RUN: re-run `npm ci && npm test && npm run lint && npm run build` and replace the logs                |
+| Manual browser, keyboard and Narrator checks                                                                    | Recorded against the earlier revision in `reports/manual-check.md`; NOT repeated after the latest changes |
+| Real API, authentication, authorisation, load behaviour                                                         | NOT TESTED (out of scope)                                                                                 |
+| macOS, Linux, Safari, other screen readers                                                                      | NOT TESTED                                                                                                |
+
+## Actual time
+
+I worked from 10:00 AM to 1:39 PM on 23 November 2026 (3 h 39 min elapsed), and spent about 25 min of that on the lead notes. I hit two setup blockers: a locked native dependency file during installation on Windows (which I resolved by closing the dev process), and unreliable default Vitest worker startup on Windows, so my tests run with `--pool=threads --maxWorkers=1`. One intermittent worker timeout occurred during my clean-clone verification; an immediate rerun passed.
+
+## Assumptions
+
+I assumed page-based pagination, a page size of 5, and that the fixture is the only data source. I was not given the real API contract, auth or error model.
+
+## Tool and source disclosure
+
+- **Scaffold:** I generated the project from the official Vite React + TypeScript template (MIT) and removed the unused template images. `public/favicon.svg` is the template favicon.
+- **AI assistance:** I used Claude (Anthropic) to review my submission against the brief and to help revise code, tests and documents. I reviewed all of its changes myself.
+- **My own work:** the component, hook, adapter, utilities, tests and documents.
+- **Runtime dependencies:** React 19.3.1 and React DOM 19.3.1 (MIT). Development dependencies (Vite, Vitest, Testing Library, ESLint, TypeScript, jsdom and their transitive packages) are open source. The lockfile lists these licences: MIT, Apache-2.0, ISC, BSD-2/3-Clause, MPL-2.0, 0BSD, BlueOak-1.0.0 and CC-BY-4.0. No third-party code is copied into `src/`.
+
+## Reuse restrictions
+
+I know of no restrictions on my code. I am submitting it for assessment and for Neli's technical and security review, and reuse terms are to be agreed before adoption. The third-party licences above apply to the dependencies. Submission is not production acceptance.

@@ -1,43 +1,34 @@
 # Lead Notes
 
-## Delivery summary
-The implementation separates catalogue query logic, the asynchronous adapter, request state and presentation. The supplied synthetic fixture is used as the demo data source.
-
 ## State ownership
-- App owns the selected demo scenario, search input, status filter, current requested page and page size.
-- useCatalogue owns the last successful response and its query metadata, loading state, recoverable error and retry trigger.
-- fixtureAdapter owns local scenario timing and simulated failure behaviour.
-- getCataloguePage is a pure function for filtering, sorting and pagination.
+- **App** (demo only) owns the selected scenario and builds the adapter from it.
+- **Catalogue** owns the search text, status filter and requested page. Any filter change resets the page to 1. `pageSize` comes from props.
+- **useCatalogue** owns the last successful response with the query that produced it, the loading flag, the error and the retry trigger.
+- **Adapter** owns data access only. The view never sees fixtures or scenarios.
+- **getCataloguePage** is a pure function (filter, sort, paginate) used by the mock adapter.
 
 ## Error and retry policy
-A failed request does not clear the last successful response or its query metadata. The view labels retained rows as previous successful results, keeps the count and page position tied to that successful response, disables pagination and offers retry for the failed query. A changed query starts a newer request and clears the prior error/retry action.
+A failure never clears the last successful rows. They are labelled as previous results, and count and page position describe that earlier result. Pagination is disabled until a query succeeds. With no earlier result, nothing is shown except the error. Retry re-runs the failed query only. Any filter change starts a newer request, which clears the error and withdraws Retry, including while loading. There is no automatic retry, so a flaky API cannot cause a request storm.
 
-## Concurrency and page-boundary policy
-Each effect invocation receives an incrementing request identity and is invalidated during cleanup. Only the current request may commit a result. If a successful response reports a positive total smaller than the requested page requires, the hook issues one request for the last valid page; that request remains subject to the same request-identity guard. Empty results are represented on page one.
+## Concurrency
+Each effect run gets an incrementing request id and is invalidated on cleanup. Only the latest id may commit a success or an error, so out-of-order responses and late failures from older requests are ignored. This does not rely on timing. A shrunken total triggers one last-page request under the same rule.
 
-## Review blockers and assumptions
-- The assessment supplies synthetic data and simulated scenarios only.
-- No production API schema, authentication, authorisation or service-level expectations were supplied.
-- The production adapter should not be implemented until the backend contract and ownership are agreed.
-- The supplied fixture was byte-compared with the original assessment asset on 23 November 2026 and matched.
-- Fresh-clone verification was completed on 23 November 2026 using Node.js 24.21.0 and npm 11.19.0: npm ci succeeded with 0 reported vulnerabilities; a standalone npm test rerun passed all 14 tests; lint and production build passed. The initial combined test invocation had an intermittent worker-startup timeout, which is disclosed in reports/manual-check.md.
-- Manual assessment checks were completed: scenario behaviour, keyboard navigation, Windows Narrator, Google Chrome, Mozilla Firefox, Microsoft Edge, and responsive layout on mobile and desktop. Results are recorded in reports/manual-check.md.
+## Review blockers (before production use)
+1. No abort signal is passed to the adapter, so superseded requests still run to completion server-side.
+2. Responses are not validated at runtime. A real adapter needs schema checks.
+3. After last-page recovery the requested page in `Catalogue` is not updated, so the view and the requested query briefly disagree. Lift the recovered page into state.
+4. The component needs a stable `fetchPage` reference. An inline function refetches on every parent render.
+5. The API contract, authentication and error model are undefined, so the adapter cannot be reviewed yet.
+6. Sorting uses `localeCompare("en")` with base sensitivity. Confirm that product and design want accent-insensitive ordering.
 
-## Adoption plan and owners
-1. Frontend owner: confirm table columns, English sorting expectations, accessibility requirements and loading/error copy with product/design.
-2. API owner: publish endpoint contract, pagination semantics, error model and authentication/authorisation requirements.
-3. Frontend owner: implement an authorised FetchPage adapter against the approved contract while preserving the view-facing types where possible.
-4. QA owner: add production-adapter contract tests and run any additional regression checks required for the agreed production browser/device support matrix. The assessment's Chrome, Firefox, Edge, mobile and desktop checks are already complete and recorded in reports/manual-check.md.
-5. Security/product owners: review data handling, credentials, dependency licences and reuse terms before production adoption.
-
-## Verification gates
-- npm ci completes from a clean checkout.
-- npm test, npm run lint and npm run build pass; clean-clone results are recorded in reports/manual-check.md.
-- Automated tests cover normal pagination, sorting ties, search/status intersection, page reset, empty results, shrinking totals, failure/retry and out-of-order responses.
-- Manual keyboard and screen-reader checks are recorded in reports/.
-- The fixture matches the supplied original file byte-for-byte (comparison completed 23 November 2026).
-- Manual scenario, keyboard, Windows Narrator, cross-browser and responsive checks are complete and recorded in reports/manual-check.md.
-- Captured local test, lint and build output is committed under reports/.
+## Adoption plan
+| Step | Owner | Gate |
+|---|---|---|
+| Agree API contract, auth and error model | API owner | Written contract |
+| Build the real `FetchPage`, add `AbortSignal` and runtime validation | Frontend owner | Adapter contract tests pass |
+| Security and licence review, reuse terms | Security/product | Sign-off recorded |
+| Behind a feature flag, run beside the old table | Frontend lead | `npm ci`, test, lint and build green; manual keyboard and screen-reader pass |
+| Ramp to all users | Product owner | No rise in error rate or support tickets |
 
 ## Rollback
-If a regression is identified, revert the relevant implementation commit(s) on the main branch. Retain the fixture and test tooling for local regression testing.
+Switch the feature flag off to restore the old table immediately. If needed, revert the adapter commit. The view and fixture adapter stay unchanged, so the demo and tests remain a regression baseline.

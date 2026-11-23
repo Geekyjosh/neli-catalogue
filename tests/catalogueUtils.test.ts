@@ -28,8 +28,18 @@ describe("getCataloguePage", () => {
       search: "atlas",
       status: "active",
     });
-    expect(result.items.every((product) => product.status === "active" && product.name.toLowerCase().includes("atlas"))).toBe(true);
-    expect(result.total).toBe(result.items.length);
+    expect(result.items.map((product) => product.id)).toEqual(["p01", "p04"]);
+    expect(result.total).toBe(2);
+    expect(getCataloguePage(products, { ...baseQuery, search: "atlas", status: "draft" })).toEqual({ items: [], total: 0 });
+  });
+
+  it("returns the second page and a short last page with the full total", () => {
+    const second = getCataloguePage(products, { ...baseQuery, page: 2 });
+    expect(second.total).toBe(12);
+    expect(second.items).toHaveLength(5);
+    const last = getCataloguePage(products, { ...baseQuery, page: 3 });
+    expect(last.items).toHaveLength(2);
+    expect(getCataloguePage(products, { ...baseQuery, page: 9 })).toEqual({ items: [], total: 12 });
   });
 
   it("filters by status before pagination", () => {

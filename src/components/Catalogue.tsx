@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { CatalogueQuery, CatalogueStatus, FetchPage } from "../adapters/types";
 import { useCatalogue } from "../hooks/useCatalogue";
 import { CatalogueTable } from "./CatalogueTable";
@@ -18,12 +18,13 @@ export interface CatalogueProps {
  */
 export function Catalogue({ fetchPage, pageSize = 5 }: CatalogueProps) {
   const [searchInput, setSearchInput] = useState("");
-  const [query, setQuery] = useState<CatalogueQuery>({
+  const [filters, setFilters] = useState<Omit<CatalogueQuery, "pageSize">>({
     search: "",
     status: "all",
     page: 1,
-    pageSize,
   });
+  // pageSize comes from props on every render so a changed prop is honoured.
+  const query = useMemo<CatalogueQuery>(() => ({ ...filters, pageSize }), [filters, pageSize]);
 
   const { data, dataQuery, loading, error, retry } = useCatalogue(fetchPage, query);
   const displayedQuery = dataQuery ?? query;
@@ -35,15 +36,15 @@ export function Catalogue({ fetchPage, pageSize = 5 }: CatalogueProps) {
 
   function updateSearch(value: string) {
     setSearchInput(value);
-    setQuery((current) => ({ ...current, search: value, page: 1 }));
+    setFilters((current) => ({ ...current, search: value, page: 1 }));
   }
 
   function updateStatus(value: CatalogueStatus) {
-    setQuery((current) => ({ ...current, status: value, page: 1 }));
+    setFilters((current) => ({ ...current, status: value, page: 1 }));
   }
 
   function changePage(page: number) {
-    setQuery((current) => ({ ...current, page }));
+    setFilters((current) => ({ ...current, page }));
   }
 
   return (
